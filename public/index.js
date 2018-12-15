@@ -1,6 +1,30 @@
-var HomePage = {
+Vue.component('nav-bar', {
+  template:
+    '<nav>' +
+      '<a class="nav-link" href="/#">BASNER MEDIA</a>' +
+      '<a class="nav-link" href="/#about">ABOUT</a>' +
+      '<a class="nav-link" href="/#posts">ARTICLES</a>' +
+      '<a class="nav-link" href="/#contact">CONTACT</a> ' +
+    '</nav>' 
+});
+
+Vue.component('header-img', {
   template: 
-      '<h1>{{ message }}</h1>',
+  '<div id="header">' +
+    '<div id="header-img">' +
+      '<p id="header-text">Hello World!</p>' +
+    '</div>' +
+  '</div>'
+});
+
+var HomePage = {
+
+  template:
+      '<div id="main">' + 
+        '<nav-bar></nav-bar>' +
+        '<header-img></header-img>' +
+        '<h1>{{ message }}</h1>' +
+      '</div> <!-- main -->',
   data: function() {
     return {
       message: "Welcome to Basner Media Empire",
@@ -9,20 +33,27 @@ var HomePage = {
 };
 
 var LoginPage = {
-  template: '<div class="">' + 
-      '<h1>Login</h1>' +
-      '<ul>' +
-        '<li class="" v-for="error in errors">{{ error }}</li>' +
-      '</ul>' +
-      '<div class="">' +
-        '<label>Email:</label>' +
-        '<input type="email" class="form-control" v-model="email">' +
+  // components: {
+  //   Navbar
+  // },
+  template:
+    '<div>' +  
+      '<nav-bar></nav-bar>' +
+      '<div class="">' + 
+        '<h1>Login</h1>' +
+        '<ul>' +
+          '<li class="" v-for="error in errors">{{ error }}</li>' +
+        '</ul>' +
+        '<div class="">' +
+          '<label>Email:</label>' +
+          '<input type="email" class="form-control" v-model="email">' +
+        '</div>' +
+        '<div class="">' +
+         ' <label>Password:</label>' +
+          '<input type="password" class="form-control" v-model="password">' +
+        '</div>' +
+        '<button class="" v-on:click="submit()">Submit</button>' +
       '</div>' +
-      '<div class="">' +
-       ' <label>Password:</label>' +
-        '<input type="password" class="form-control" v-model="password">' +
-      '</div>' +
-      '<button class="" v-on:click="submit()">Submit</button>' +
     '</div>',
   data: function() {
     return {

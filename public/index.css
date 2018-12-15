@@ -1,0 +1,164 @@
+/***********************************
+
+Global Styles
+
+************************************/
+
+body {
+  background-color: #dedede;
+  color: #121212;
+  font-family: arial, "sans-serif";
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/*.home-page-wrapper {
+  margin: 20px 20px 0 20px;
+}
+
+.admin-wrapper {
+  margin: 62px 20px 20px 20px;
+  padding-top: 10px;
+}
+*/
+.center {
+  text-align: center;
+}
+
+/*hr {
+  color: #3bde9a;
+  height: 0;
+  border: 0;
+  box-shadow: 0 0 10px 1px #3bde9a;
+  width: 100%;
+  margin-top: 162px;
+}*/
+/*
+@media only screen and (max-width: 767px) {
+  .admin-wrapper {
+    margin-top: 168px;
+  }
+
+  hr {
+    margin-top: 268px;
+    margin-bottom: -100px;
+  }
+}*/
+
+/***********************************
+
+Nav Bars
+
+************************************/
+
+nav {
+  background: #121212; 
+  color: #dedede;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #efefef;
+  padding: 20px 20px 10px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-right: 1pt solid #efefef;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: solid 10px #121212;
+  transition-duration: 0.2s;
+}
+
+.nav-link:last-of-type {
+  border-right: none;
+}
+
+.nav-link:hover {
+  border-bottom: solid 10px cornflowerblue;
+}
+
+.nav-link:focus {
+  background-color: cornflowerblue;
+  border-bottom: solid 10px cornflowerblue;
+  outline: none;
+}
+
+@media only screen and (max-width: 767px) {
+  nav {
+    flex-direction: column;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 10px 10px 0 10px;
+  }
+}
+
+/***********************************
+
+Header img
+
+************************************/
+
+#header-img {
+  background-image: url('/images/comp1.jpg');
+  background-color: #cdcdcd;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+#header-text {
+  color: #fff;
+  font-size: 3.0rem;
+}
+
+
+@media only screen and (max-width: 767px) {
+  #header-img {
+    height: 400px;
+  }
+
+  #header-text {
+  }
+}
+
+
+/***********************************
+
+Anchors for nav links, 
+
+************************************/
+
+/*.anchor {
+  padding-top: 62px;
+  margin-bottom: -62px;
+}
+
+.anchor-last {
+  padding-top: 62px;
+}
+
+@media only screen and (max-width: 767px) {
+  .anchor {
+    padding-top: 168px;
+    margin-bottom: -168px;
+  }
+
+  .anchor-last {
+    padding-top: 168px;
+  }
+}
+*/
