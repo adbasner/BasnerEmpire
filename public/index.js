@@ -37,7 +37,34 @@ Vue.component('about-section', {
 });
 
 Vue.component('intro-blog-posts', {
-  template
+  template:
+    '<div id="posts">' +
+      '<h2 class="center">Recent Blog Posts</h2>' +
+      '<div id="post-wrapper">' +
+        '<div id="postOne" class="main-page-post"><h1>{{ posts[0]["title"] }}</h1></div>' +
+        '<div id="postTwo" class="main-page-post"><h1>{{ posts[1]["title"] }}</h1></div>' +
+        '<div id="postThree" class="main-page-post"></div> ' +
+      '</div>' +
+      '<div class="btn-wrapper">' +
+        '<button class="btn btn-primary">View all posts</button>' +
+      '</div>' +
+    '</div>',
+  data: function() {
+    return {
+      posts: []
+    };
+  },
+  created: function() {
+    axios
+      .get("/api/v1/posts")
+      .then(function(response) {
+        console.log(response.data.posts);
+        let i = 0;
+        this.posts = response.data.posts;
+      }.bind(this));
+  },
+  methods: {},
+  computes: {}
 });
 
 var HomePage = {
@@ -45,7 +72,7 @@ var HomePage = {
       '<div id="main">' + 
         '<nav-bar></nav-bar>' +
         '<header-img></header-img>' +
-        
+        '<intro-blog-posts></intro-blog-posts>' +
         '<about-section></about-section>' +
       '</div> <!-- main -->',
   data: function() {

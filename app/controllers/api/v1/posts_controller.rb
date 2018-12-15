@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: [:show, :update, :destroy]
-  before_action :require_same_user, only: [:edit, :update, :delete, :destroy]
+  before_action :require_current_user
 
   def index
     @posts = Post.all.order(created_at: :desc)
@@ -48,12 +48,10 @@ class Api::V1::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :content)
   end
-  # Makes sure current_user is same as post created
-  # Shouldn't be needed with only 1 user, but whatever
-  # def require_same_user
-  #   if admin_user != @post.user
-  #     flash[:danger] = ['You can not edit these articles fool']
-  #     redirect_to admin_posts_path
-  #   end
-  # end
+
+  def require_current_user
+    if !current_user
+      render json: {}
+    end
+  end
 end
