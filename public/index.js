@@ -2,7 +2,7 @@ Vue.component('nav-bar', {
   template:
     '<nav>' +
       '<a class="nav-link" href="/#">BASNER MEDIA</a>' +
-      '<a class="nav-link" href="/#about">ABOUT</a>' +
+      '<a class="nav-link" href="#about">ABOUT</a>' +
       '<a class="nav-link" href="/#posts">ARTICLES</a>' +
       '<a class="nav-link" href="/#contact">CONTACT</a> ' +
     '</nav>' 
@@ -17,13 +17,36 @@ Vue.component('header-img', {
   '</div>'
 });
 
-var HomePage = {
+Vue.component('about-section', {
+  template: 
+    '<div id="about">' +
+      '<h1>{{ headerMsg }}</h1>' +
+      '<p>{{ message }}</p>' +
+      '<p>{{ message }}</p>' +
+      '<p>{{ message }}</p>' +
+      '<p>{{ message }}</p>' +
+      '<p>{{ message }}</p>' +
+      '<p>{{ message }}</p>' +
+    '</div>',
+  data: function() {
+    return {
+      headerMsg: "Welcome to Basner Media Empire",
+      message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    };
+  } 
+});
 
+Vue.component('intro-blog-posts', {
+  template
+});
+
+var HomePage = {
   template:
       '<div id="main">' + 
         '<nav-bar></nav-bar>' +
         '<header-img></header-img>' +
-        '<h1>{{ message }}</h1>' +
+        
+        '<about-section></about-section>' +
       '</div> <!-- main -->',
   data: function() {
     return {
@@ -124,7 +147,8 @@ var router = new VueRouter({
   routes: [ 
     { path: "/", component: HomePage },    
     { path: "/login", component: LoginPage },
-    { path: "/logout", component: LogoutPage}   
+    { path: "/logout", component: LogoutPage },
+    { path: "/about", component: HomePage }   
   ], 
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
