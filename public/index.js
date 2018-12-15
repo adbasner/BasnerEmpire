@@ -40,10 +40,8 @@ Vue.component('intro-blog-posts', {
   template:
     '<div id="posts">' +
       '<h2 class="center">Recent Blog Posts</h2>' +
-      '<div id="post-wrapper">' +
-        '<div id="postOne" class="main-page-post"><h1>{{ posts[0]["title"] }}</h1></div>' +
-        '<div id="postTwo" class="main-page-post"><h1>{{ posts[1]["title"] }}</h1></div>' +
-        '<div id="postThree" class="main-page-post"></div> ' +
+      '<div id="post-wrapper" v-for="post in posts">' +
+        '<div id="postOne" class="main-page-post"><h1>{{ post.title }}</h1></div>' +
       '</div>' +
       '<div class="btn-wrapper">' +
         '<button class="btn btn-primary">View all posts</button>' +
@@ -58,7 +56,7 @@ Vue.component('intro-blog-posts', {
     axios
       .get("/api/v1/posts")
       .then(function(response) {
-        console.log(response.data.posts);
+        console.log(response.data);
         let i = 0;
         this.posts = response.data.posts;
       }.bind(this));
