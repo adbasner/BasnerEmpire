@@ -3,13 +3,19 @@
 <head>
   <title>Basner Media</title>
   <style type="text/css">
-    h1 {
-      text-align: center;
-      margin-top: 25%;
-    }
   </style>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="index.js" defer></script>
 </head>
 <body>
-<h1>Welcome to Basner Media</h1>
+  <a href="/#/login">Login</a>
+  <a href="/#/logout">Logout</a>
+  <div id="vue-app">
+
+    <router-view></router-view>
+
+  </div>
 </body>
 </html>

@@ -7,8 +7,7 @@ Rails.application.routes.draw do
   end
 
   # user routes
-  get '/dashboard/' => 'users#show'
-  resources :users, only: [:edit, :update]
+  resources :users, only: [:show, :edit, :update]
 
   # sessions routes
   get '/login' => 'sessions#new'

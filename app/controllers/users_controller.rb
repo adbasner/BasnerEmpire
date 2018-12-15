@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def require_same_user
     if current_user != @user
-      render json: {}, status: :unauthorized
+      render json: { errors: ['You must be logged in to do that.'] }, status: :unauthorized
     end
   end
 end

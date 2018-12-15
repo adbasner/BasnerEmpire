@@ -16,6 +16,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    session[:jwt] = nil
+    render json: {}
+  end
+
   private
 
   def sessions_params

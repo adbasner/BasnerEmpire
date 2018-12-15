@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
           true,
           { algorithm: 'HS256' }
         )
-        User.find_by(id: decoded_token[0]["user"])
+        User.find_by(id: decoded_token[0]['user'])
       rescue JWT::ExpiredSignature
         nil
       end
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     unless current_user
-      render json: { errors: ['You must be logged in to do that.']}, status: :unauthorized
+      render json: { errors: ['You must be logged in to do that.'] }, status: :unauthorized
     end
   end
 
@@ -31,6 +31,4 @@ class ApplicationController < ActionController::Base
       render json: { errors: ['You must be an admin to do that.'] }, status: :unauthorized
     end
   end
-
-
 end
