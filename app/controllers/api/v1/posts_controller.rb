@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: [:show, :update, :destroy]
-  before_action :require_current_user
+  before_action :require_current_user, only: [:create, :update, :destroy]
 
   def index
     @posts = Post.all.order(created_at: :desc)

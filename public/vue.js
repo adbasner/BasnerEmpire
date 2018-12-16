@@ -106,8 +106,8 @@ Vue.component('contact-me', {
 Vue.component('footer-section', {
   template: 
   '<footer id="footer" class="anchor-last">' +
-      '<a v-bind:href="/login">Login</a>' +
-      '<a v-bind:href="/logout">Logout</a>' +
+      '<a href="/#/login">Login</a>' +
+      '<a href="/#/logout">Logout</a>' +
   '</footer>'
 });
 
