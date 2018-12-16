@@ -10,7 +10,6 @@ Vue.component('nav-bar', {
   methods: {
     goto(anchor) {
       let el = document.getElementById(anchor);
- 
       window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
     }
   }
@@ -49,18 +48,29 @@ Vue.component('contact-me', {
   template:
     '<div id="contact" class="anchor">' +
       '<div id="contact-wrapper">' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
-        '<p>Contact</p>' +
+        '<h2 class="center">Contact Me</h2>' +
+       ' <form>' +
+
+          '<div class="inputbox">' +
+            '<label for="name">Name: </label>' +
+            '<input id="name" type="text" name="name" placeholder="name">' +
+          '</div>' +
+
+          '<div class="inputbox">' +
+            '<label for="email">Email: </label>' +
+            '<input id="email" type="email" name="email" placeholder="email@example.com">' +
+          '</div>' +
+
+          '<div class="inputbox">' +
+            '<label for="message">Message: </label>' +
+            '<textarea rows="10" type="textarea" name="message"placeholder="Enter your message here"></textarea>' +
+          '</div>' +
+
+          '<div class="inputbox">' +
+            '<input class="btn" type="submit" name="submit">' +
+          '</div>' +
+
+        '</form>' +
       '</div>' +
     '</div>',
   data: function() {

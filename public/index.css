@@ -28,13 +28,13 @@ body {
   box-sizing: border-box;
   text-transform: uppercase;
   color: #fff;
-  background-color: cornflowerblue;
-  box-shadow: 0 0 2px cornflowerblue;
-  border: solid 1px cornflowerblue;
+  background-color: #edbc64;
+  border: solid 1px #edbc64;
+  box-shadow: 0 0 2px #edbc64;  
 }
 
 .btn:focus {
-  box-shadow: 0 0 15px cornflowerblue;
+  box-shadow: 0 0 15px #edbc64;
   outline: none;
 }
 
@@ -65,10 +65,10 @@ nav {
   padding: 20px 0 10px 0;
   font-size: 1.2rem;
   font-weight: 700;
+  box-sizing: border-box;
   border-right: 1pt solid #efefef;
   display: inline-block;
   width: 100%;
-  box-sizing: border-box;
   border-bottom: solid 10px #121212;
   cursor: pointer;
 }
@@ -185,9 +185,43 @@ Contact
 #contact-wrapper {
   margin-left: -20px;
   margin-right: -20px;
-  padding: 60px 20px;
+  padding: 20px 20px;
   background-color: cornflowerblue;
   color: white;
+}
+
+form {
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.inputbox {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+}
+
+input, textarea {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: none;
+  border: solid 1px cornflowerblue;
+  /*box-shadow: 0 0 5px #edbc64;*/
+/*    min-width: 360px;
+  max-width: 600px;*/
+  width: 80%;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border: solid 1px #edbc64;
+  box-shadow: 0 0 5px #edbc64;
 }
 
 /***********************************
@@ -203,21 +237,18 @@ Posts
   width: 100%;
 }
 
+.main-page-post h3 {
+  border-bottom: solid 1px #121212;
+}
+
 #vpb-div {
   width: 100%;
-  margin: 30px;
+  margin: 30px 0;
 }
 
 #view-posts-btn {
   width: 300px;
   height: 60px;
-  background-color: #edbc64;
-  border-color: #edbc64;
-  box-shadow: 0 0 2px #edbc64;
-}
-
-#view-posts-btn:focus {
-  box-shadow: 0 0 15px #edbc64;
 }
 
 @media only screen and (max-width: 767px) {
