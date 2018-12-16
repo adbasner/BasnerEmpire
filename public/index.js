@@ -1,25 +1,32 @@
 Vue.component('nav-bar', {
   template:
     '<nav>' +
-      '<a class="nav-link" href="/#">BASNER MEDIA</a>' +
-      '<a class="nav-link" href="#about">ABOUT</a>' +
-      '<a class="nav-link" href="/#posts">ARTICLES</a>' +
-      '<a class="nav-link" href="/#contact">CONTACT</a> ' +
-    '</nav>' 
+      '<button class="nav-link" @click="goto(\'header\')" >BASNER MEDIA</button>' +
+      '<button class="nav-link" @click="goto(\'about\')">ABOUT</button>' +
+      '<button class="nav-link" @click="goto(\'posts\')">ARTICLES</button>' +
+      '<button class="nav-link" @click="goto(\'contact\')">CONTACT</button> ' +
+    '</nav>',
+  methods: {
+    goto(anchor) {
+      var el = document.getElementById(anchor);
+      window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
+    }
+  }
 });
 
 Vue.component('header-img', {
   template: 
-  '<div id="header">' +
+  '<div id="header" class="anchor">' +
     '<div id="header-img">' +
-      '<p id="header-text">Hello World!</p>' +
+      '<h1 id="header-text" class="center">Welcome to Basner Media</h2>' +
+      '<h2 id="header-subtext" class="center">Info and insight on web development</h2>' +
     '</div>' +
   '</div>'
 });
 
 Vue.component('about-section', {
   template: 
-    '<div id="about">' +
+    '<div id="about"  class="anchor">' +
       '<h1>{{ headerMsg }}</h1>' +
       '<p>{{ message }}</p>' +
       '<p>{{ message }}</p>' +
@@ -38,7 +45,7 @@ Vue.component('about-section', {
 
 Vue.component('intro-blog-posts', {
   template:
-    '<div id="posts">' +
+    '<div id="posts" class="anchor">' +
       '<h2 class="center">Recent Blog Posts</h2>' +
       '<div id="post-wrapper" v-for="post in posts">' +
         '<div id="postOne" class="main-page-post"><h1>{{ post.title }}</h1></div>' +
@@ -70,8 +77,8 @@ var HomePage = {
       '<div id="main">' + 
         '<nav-bar></nav-bar>' +
         '<header-img></header-img>' +
-        '<intro-blog-posts></intro-blog-posts>' +
         '<about-section></about-section>' +
+        '<intro-blog-posts></intro-blog-posts>' +
       '</div> <!-- main -->',
   data: function() {
     return {
