@@ -7,11 +7,11 @@
 Vue.component('home-nav-bar', {
   template:
     '<nav>' +
-      '<button class="nav-link nav-active" @click="goto(\'header\')">BASNER MEDIA</button>' +
-      '<button class="nav-link" @click="goto(\'about\')">ABOUT</button>' +
-      '<button class="nav-link" @click="goto(\'contact\')">CONTACT</button> ' +
-      '<button class="nav-link" @click="goto(\'posts\')">RECENT POST</button>' +
-      '<button class="nav-link">ALL ARTICLES</button>' +
+      '<router-link to="" class="nav-link nav-active" @click.native="goto(\'header\')">BASNER MEDIA</router-link>' +
+      '<router-link to="" class="nav-link" @click.native="goto(\'about\')">ABOUT</router-link>' +
+      '<router-link to="" class="nav-link" @click.native="goto(\'contact\')">CONTACT</router-link>' +
+      '<router-link to="" class="nav-link" @click.native="goto(\'posts\')">RECENT POST</router-link>' +
+      '<router-link to="" class="nav-link" @click.native="goto(\'posts\')">ALL ARTICLES</router-link>' +
     '</nav>',
   methods: {
     goto(anchor) {
@@ -24,26 +24,18 @@ Vue.component('home-nav-bar', {
 Vue.component('admin-nav-bar', {
   template:
     '<nav>' +
-      '<button class="nav-link" target="blank"><router-link to="/">BASNER MEDIA</router-link></button>' +
-      '<button class="nav-link">DASHBOARD</button>' +
-      '<button class="nav-link" @click="logout">LOG OUT</button>' +
+      '<router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>' +
+      '<router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>' +
+      '<router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>' +
+      '<router-link to="to" class="nav-link" @click.native="logout">LOG OUT</router-link>' +
     '</nav>',
-  computed: {
-    loggedIn: function() {
-      if (localStorage.getItem('jwt')) {
-        return true;
-      } else {
-        router.push('login');
-      }
-    }
-  },
   created: function() {
     if (!localStorage.getItem('jwt')) {
       router.push('login');
     }
   },
   methods: {
-    logout() {
+    logout: function() {
       axios.defaults.headers.common["Authorization"] = undefined;
       localStorage.removeItem('jwt');
       axios.delete('/logout');

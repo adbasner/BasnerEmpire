@@ -57,10 +57,6 @@ nav {
   z-index: 99;
 }
 
-a {
-  text-decoration: none;
-  color: #efefef;
-}
 .nav-link {
   border: none;
   background-color: #121212;
@@ -75,6 +71,7 @@ a {
   width: 100%;
   border-bottom: solid 10px #121212;
   cursor: pointer;
+  line-height: 1;
 }
 
 .nav-link:last-of-type {
@@ -108,13 +105,13 @@ Anchor refs
 ************************************/
 
 .anchor {
-  padding-top: 62px;
-  margin-bottom: -62px;
+  padding-top: 59px;
+  margin-bottom: -59px;
 }
 
 
 .anchor-last {
-  padding-top: 62px;
+  padding-top: 59px;
 }
 
 @media only screen and (max-width: 767px) {
