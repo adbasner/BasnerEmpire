@@ -62,7 +62,7 @@ nav {
   background-color: #121212;
   text-decoration: none;
   color: #efefef;
-  padding: 20px 20px 10px 20px;
+  padding: 20px 0 10px 0;
   font-size: 1.2rem;
   font-weight: 700;
   border-right: 1pt solid #efefef;
@@ -72,19 +72,19 @@ nav {
   border-bottom: solid 10px #121212;
   transition-duration: 0.2s;
   transition-property: border;
+  cursor: pointer;
 }
 
 .nav-link:last-of-type {
   border-right: none;
 }
 
-.nav-link:hover {
+.nav-link:hover, 
+.nav-active {
   border-bottom: solid 10px cornflowerblue;
 }
 
 .nav-link:focus {
-  background-color: cornflowerblue;
-  border-bottom: solid 10px cornflowerblue;
   outline: none;
 }
 
@@ -117,12 +117,12 @@ Anchor refs
 
 @media only screen and (max-width: 767px) {
   .anchor {
-    padding-top: 168px;
-    margin-bottom: -168px;
+    padding-top: 215px;
+    margin-bottom: -215px;
   }
 
   .anchor-last {
-    padding-top: 168px;
+    padding-top: 215px;
   }
 }
 
@@ -131,10 +131,13 @@ Anchor refs
 Header
 
 ************************************/
+#header {
+  padding-bottom: 60px;
+}
 
 #header-img {
   background-image: url('/images/comp1.jpg');
-  background-color: #cdcdcd;
+  background-color: #121212;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -171,6 +174,9 @@ Header
 About
 
 ************************************/
+ #about {
+  padding-bottom: 60px;
+ }
 
 /***********************************
 
@@ -206,8 +212,12 @@ Posts
 }
 
 .post-content {
-  max-height: 150px;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-height: 30px;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 .small-post-btn {
