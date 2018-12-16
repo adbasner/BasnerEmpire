@@ -1,4 +1,10 @@
-Vue.component('nav-bar', {
+// *****************************
+//
+// Components 
+//
+// *****************************
+
+Vue.component('client-nav-bar', {
   template:
     '<nav>' +
       '<button class="nav-link nav-active" @click="goto(\'header\')">BASNER MEDIA</button>' +
@@ -12,6 +18,31 @@ Vue.component('nav-bar', {
       let el = document.getElementById(anchor);
       window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
     }
+  }
+});
+
+Vue.component('admin-login-nav-bar', {
+  template:
+    '<nav>' +
+      '<button class="nav-link ">BASNER MEDIA</button>' +
+      '<button class="nav-link">DASHBOARD</button>' +
+      '<button class="nav-link" v-if="loggedIn">LOG OUT</button>' +
+      '<button class="nav-link nav-active" v-else>LOG IN</button>' +
+    '</nav>',
+  computed: {
+    loggedIn: function() {
+      if (localStorage.getItem('jwt')) {
+        return true;
+      }
+    }
+  },
+  methods: {
+    logout() {
+      axios.defaults.headers.common["Authorization"] = undefined;
+      localStorage.removeItem('jwt');
+      axios.delete('/logout');
+      router.push('/');
+    },
   }
 });
 
@@ -122,29 +153,30 @@ Vue.component('footer-section', {
   '</footer>'
 });
 
+
+// *****************************
+//
+// Pages 
+//
+// *****************************
+
 var HomePage = {
   template:
-      '<div id="vue-main">' + 
-        '<nav-bar></nav-bar>' +
-        '<header-img></header-img>' +
-        '<div class="content-wrapper">' +
-          '<about-section></about-section>' +
-          '<contact-me></contact-me>' +
-          '<last-blog-post></last-blog-post>' +
-          '<footer-section></footer-section>' +
-        '</div> <!-- content-wrapper -->' +
-      '</div> <!-- main -->',
-  data: function() {
-    return {
-      message: "Welcome to Basner Media Empire",
-    };
-  }
+    '<div id="vue-home-main">' + 
+      '<client-nav-bar></client-nav-bar>' +
+      '<header-img></header-img>' +
+      '<div class="content-wrapper">' +
+        '<about-section></about-section>' +
+        '<contact-me></contact-me>' +
+        '<last-blog-post></last-blog-post>' +
+        '<footer-section></footer-section>' +
+      '</div> <!-- content-wrapper -->' +
+    '</div> <!-- main -->'
 };
 
 var LoginPage = {
   template:
-    '<div>' +  
-      '<nav-bar></nav-bar>' +
+    '<div id="">' +  
       '<div class="">' + 
         '<h1>Login</h1>' +
         '<ul>' +
@@ -159,6 +191,7 @@ var LoginPage = {
           '<input type="password" class="form-control" v-model="password">' +
         '</div>' +
         '<button class="" v-on:click="submit()">Submit</button>' +
+      '</div>' +
       '</div>' +
     '</div>',
   data: function() {
@@ -194,7 +227,9 @@ var LoginPage = {
             if (response.data.jwt) {
               axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
               localStorage.setItem("jwt", response.data.jwt);
-              router.push("/");
+              router.push("/dashboard");
+            } else {
+              this.giveErrors();
             }
           })
           .catch(
@@ -204,12 +239,15 @@ var LoginPage = {
               this.password = "";
             }.bind(this)
           );
-        if (!localStorage.getItem("jwt")) {
-          this.errors = ['Incorrect email or password'];
-          this.email = "";
-          this.password = "";
-        } 
       } 
+    },
+
+    giveErrors: function() {
+      if (!localStorage.getItem("jwt")) {
+        this.errors = ['Incorrect email or password'];
+        this.email = "";
+        this.password = "";
+      }
     } 
   }
 };
@@ -229,6 +267,7 @@ var router = new VueRouter({
     { path: "/", component: HomePage },    
     { path: "/login", component: LoginPage },
     { path: "/logout", component: LogoutPage },
+    // { path: "/dashboard", component: DashboardPage},
     { path: "/about", component: HomePage }   
   ], 
   scrollBehavior: function(to, from, savedPosition) {
