@@ -4,7 +4,7 @@
 //
 // *****************************
 
-Vue.component('client-nav-bar', {
+Vue.component('home-nav-bar', {
   template:
     '<nav>' +
       '<button class="nav-link nav-active" @click="goto(\'header\')">BASNER MEDIA</button>' +
@@ -21,19 +21,25 @@ Vue.component('client-nav-bar', {
   }
 });
 
-Vue.component('admin-login-nav-bar', {
+Vue.component('admin-nav-bar', {
   template:
     '<nav>' +
-      '<button class="nav-link ">BASNER MEDIA</button>' +
+      '<button class="nav-link" target="blank"><router-link to="/">BASNER MEDIA</router-link></button>' +
       '<button class="nav-link">DASHBOARD</button>' +
-      '<button class="nav-link" v-if="loggedIn">LOG OUT</button>' +
-      '<button class="nav-link nav-active" v-else>LOG IN</button>' +
+      '<button class="nav-link" @click="logout">LOG OUT</button>' +
     '</nav>',
   computed: {
     loggedIn: function() {
       if (localStorage.getItem('jwt')) {
         return true;
+      } else {
+        router.push('login');
       }
+    }
+  },
+  created: function() {
+    if (!localStorage.getItem('jwt')) {
+      router.push('login');
     }
   },
   methods: {
@@ -41,7 +47,7 @@ Vue.component('admin-login-nav-bar', {
       axios.defaults.headers.common["Authorization"] = undefined;
       localStorage.removeItem('jwt');
       axios.delete('/logout');
-      router.push('/');
+      router.push('/login');
     },
   }
 });
@@ -148,8 +154,7 @@ Vue.component('last-blog-post', {
 Vue.component('footer-section', {
   template: 
   '<footer id="footer"">' +
-      '<a href="/#/login">Login</a>' +
-      '<a href="/#/logout">Logout</a>' +
+      '<a href="/#/dashboard">Dashboard</a>' +
   '</footer>'
 });
 
@@ -163,7 +168,7 @@ Vue.component('footer-section', {
 var HomePage = {
   template:
     '<div id="vue-home-main">' + 
-      '<client-nav-bar></client-nav-bar>' +
+      '<home-nav-bar></home-nav-bar>' +
       '<header-img></header-img>' +
       '<div class="content-wrapper">' +
         '<about-section></about-section>' +
@@ -176,22 +181,26 @@ var HomePage = {
 
 var LoginPage = {
   template:
-    '<div id="">' +  
-      '<div class="">' + 
-        '<h1>Login</h1>' +
-        '<ul>' +
-          '<li class="" v-for="error in errors">{{ error }}</li>' +
-        '</ul>' +
-        '<div class="">' +
-          '<label>Email:</label>' +
-          '<input type="email" class="form-control" v-model="email">' +
+    '<div id="vue-login-main">' +  
+      '<div id="login">' +
+        '<div class="alert-box">' +
+          '<div class="alert alert-danger" v-for="error in errors">' +
+          'WARNING: {{ error }}' + 
+          '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
         '</div>' +
-        '<div class="">' +
-         ' <label>Password:</label>' +
-          '<input type="password" class="form-control" v-model="password">' +
         '</div>' +
-        '<button class="" v-on:click="submit()">Submit</button>' +
-      '</div>' +
+        '<h1>LOGIN</h1>' +
+        '<div class="login-box">' +
+          '<label for="email">Email:</label>' +
+          '<input id="email" type="email" class="form-control" v-model="email">' +
+        '</div>' +
+        '<div class="login-box">' +
+         ' <label for="password">Password:</label>' +
+          '<input id="password" type="password" class="form-control" v-model="password">' +
+        '</div>' +
+        '<div class="login-box">' +
+          '<input id="login-btn" class="btn" type="submit" @click="submit()" name="Submit">' +
+        '</div>' +
       '</div>' +
     '</div>',
   data: function() {
@@ -241,7 +250,6 @@ var LoginPage = {
           );
       } 
     },
-
     giveErrors: function() {
       if (!localStorage.getItem("jwt")) {
         this.errors = ['Incorrect email or password'];
@@ -252,22 +260,16 @@ var LoginPage = {
   }
 };
 
-var LogoutPage = {
-  template: '<h1>Logout</h1>',
-  created: function() {
-    axios.defaults.headers.common["Authorization"] = undefined;
-    localStorage.removeItem('jwt');
-    axios.delete('/logout');
-    router.push('/');
-  }
+var DashboardPage = {
+  template: 
+    '<admin-nav-bar></admin-nav-bar>'
 };
 
 var router = new VueRouter({
   routes: [ 
     { path: "/", component: HomePage },    
     { path: "/login", component: LoginPage },
-    { path: "/logout", component: LogoutPage },
-    // { path: "/dashboard", component: DashboardPage},
+    { path: "/dashboard", component: DashboardPage},
     { path: "/about", component: HomePage }   
   ], 
   scrollBehavior: function(to, from, savedPosition) {

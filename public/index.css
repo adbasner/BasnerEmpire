@@ -57,6 +57,10 @@ nav {
   z-index: 99;
 }
 
+a {
+  text-decoration: none;
+  color: #efefef;
+}
 .nav-link {
   border: none;
   background-color: #121212;
@@ -198,6 +202,7 @@ form {
 
 .inputbox {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 label {
@@ -212,9 +217,6 @@ input, textarea {
   box-sizing: border-box;
   border: none;
   border: solid 1px cornflowerblue;
-  /*box-shadow: 0 0 5px #edbc64;*/
-/*    min-width: 360px;
-  max-width: 600px;*/
   width: 80%;
 }
 
@@ -253,6 +255,7 @@ Posts
 
 @media only screen and (max-width: 767px) {
 }
+
 /***********************************
 
 Footer
@@ -271,4 +274,79 @@ Footer
   #footer {
     margin-top: 215px;
   }
+}
+
+ /***********************************
+
+Alerts
+
+************************************/
+
+.alert {
+  padding: 20px;
+  font-size: 1.1rem;
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.alert-success {
+  color: #222;
+  background-color: #D4EDDA;
+  border-color: #B3CBB0;
+}
+
+.alert-danger {
+  color: #222;
+  background-color: #F8D7DA;
+  border-color: #D6B5B8; 
+}
+
+.alert-warning {
+  color: #222;
+  background-color: #FFF3CD;
+  border-color: #B0CAD0;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: #222;
+  font-weight: bold;
+  float: right;
+  font-size: 1.5rem;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+ /***********************************
+
+Log In Page
+
+************************************/
+
+#login {
+  background-color: cornflowerblue;
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+}
+
+.alert-box {
+  position: absolute;
+  z-index: 99;
+  top: 5%;
+}
+
+.login-box {
+  text-align: center;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
 }
