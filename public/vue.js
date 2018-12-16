@@ -38,23 +38,22 @@ Vue.component('about-section', {
   } 
 });
 
-Vue.component('intro-blog-posts', {
+Vue.component('contact-me', {
   template:
-    '<div id="posts" class="anchor">' +
-      '<h2 class="center">Recent Blog Posts</h2>' +
-      '<div id="post-wrapper">' +
-        '<div class="main-page-post" v-for="post in posts">' +
-          '<h2 class="center">{{ post.title }}</h2>' + 
-          '<div class="post-content" v-html="post.content">' + 
-            '{{ post.content }}' + 
-          '</div>' +
-          '<button class="btn small-post-btn">' +
-            'Read post' +
-          '</button></a>' +
-        '</div> <!-- main-page-post -->'  +
-      '</div> <!-- post-wrapper -->' +
-      '<div class="center view-posts-wrapper">' +
-        '<button id="view-posts-btn" class="btn">View all posts</button>' +
+    '<div id="contact" class="anchor">' +
+      '<div id="contact-wrapper">' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
+        '<p>Contact</p>' +
       '</div>' +
     '</div>',
   data: function() {
@@ -72,40 +71,35 @@ Vue.component('intro-blog-posts', {
   }
 });
 
-Vue.component('contact-me', {
+Vue.component('last-blog-post', {
   template:
-    '<div id="contact" class="anchor">' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
-      '<p>Contact</p>' +
+    '<div id="posts" class="anchor">' +
+      '<div class="main-page-post">' +
+        '<h3>{{ lastpost.title }}</h3>' + 
+        '<div class="post-content" v-html="lastpost.content">' + 
+          '{{ lastpost.content }}' + 
+        '</div>' +
+        '<div id="vpb-div" class="center"><button id="view-posts-btn" class="btn">View all blog posts</button></div>' +
+      '</div> <!-- main-page-post -->'  +
     '</div>',
   data: function() {
     return {
-      posts: []
+      lastpost: {}
     };
   },
   created: function() {
     axios
-      .get("/api/v1/posts")
+      .get("/api/v1/lastpost")
       .then(function(response) {
         let i = 0;
-        this.posts = response.data.posts.slice(0, 3);
+        this.lastpost = response.data;
       }.bind(this));
   }
 });
 
 Vue.component('footer-section', {
   template: 
-  '<footer id="footer" class="anchor-last">' +
+  '<footer id="footer"">' +
       '<a href="/#/login">Login</a>' +
       '<a href="/#/logout">Logout</a>' +
   '</footer>'
@@ -119,7 +113,7 @@ var HomePage = {
         '<div class="content-wrapper">' +
           '<about-section></about-section>' +
           '<contact-me></contact-me>' +
-          '<intro-blog-posts></intro-blog-posts>' +
+          '<last-blog-post></last-blog-post>' +
           '<footer-section></footer-section>' +
         '</div> <!-- content-wrapper -->' +
       '</div> <!-- main -->',

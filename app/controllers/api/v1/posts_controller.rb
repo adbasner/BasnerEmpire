@@ -11,6 +11,12 @@ class Api::V1::PostsController < ApplicationController
     render 'show.json.jbuilder'
   end
 
+  def last
+    @post = Post.last
+    puts @post
+    render 'show.json.jbuilder'
+  end
+
   def create
     @post = Post.new(post_params)
     @post.user_id = 1

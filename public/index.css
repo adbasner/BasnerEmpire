@@ -5,7 +5,7 @@ Global Styles
 ************************************/
 
 body {
-  background-color: #dedede;
+  background-color: #fefefe;
   color: #121212;
   font-family: arial, "sans-serif";
   padding: 0;
@@ -81,7 +81,7 @@ nav {
 
 .nav-link:hover, 
 .nav-active {
-  border-bottom: solid 10px cornflowerblue;
+  border-bottom: solid 10px #edbc64;
 }
 
 .nav-link:focus {
@@ -119,10 +119,6 @@ Anchor refs
   .anchor {
     padding-top: 215px;
     margin-bottom: -215px;
-  }
-
-  .anchor-last {
-    padding-top: 215px;
   }
 }
 
@@ -174,62 +170,49 @@ Header
 About
 
 ************************************/
- #about {
+#about {
   padding-bottom: 60px;
- }
+}
+
+ /***********************************
+
+Contact
+
+************************************/
+#contact {
+  padding-bottom: 60px;
+  
+}
+
+#contact-wrapper {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding: 60px 20px;
+  background-color: cornflowerblue;
+  color: white;
+}
 
 /***********************************
 
 Posts
 
 ************************************/
-
-#post-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: stretch;
-  padding-bottom: 30px;
-
+#posts {
+  padding-bottom: 60px;
 }
 
 .main-page-post {
-  box-sizing: border-box;
-  width: 32%;
-  border-radius: 5px;
-  padding: 1%;
-  padding-bottom: 60px;
-  box-shadow: 0 0 5px #020202;
-  position: relative;
+  width: 100%;
 }
 
-.main-page-post:hover {
-  box-shadow: 0 0 10px #020202;
-}
-
-.main-page-post h3 {
-  margin: 10px 0 10px 0;
-}
-
-.post-content {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-height: 30px;
-  padding-left: 2%;
-  padding-right: 2%;
-}
-
-.small-post-btn {
-  position: absolute;
-  left: 5%;
-  bottom: 10px;
-  width: 90%;
+#vpb-div {
+  width: 100%;
+  margin: 30px;
 }
 
 #view-posts-btn {
-  width: 100%;
-  max-width: 400px;
+  width: 300px;
+  height: 60px;
   background-color: #edbc64;
   border-color: #edbc64;
   box-shadow: 0 0 2px #edbc64;
@@ -239,31 +222,7 @@ Posts
   box-shadow: 0 0 15px #edbc64;
 }
 
-.view-posts-wrapper {
-  padding: 30px 0px 60px 0px;
-  border-bottom: solid 1px cornflowerblue;
-}
-
 @media only screen and (max-width: 767px) {
-  #post-wrapper {
-    flex-direction: column;
-    padding-bottom: 10px;
-  }
-
-  .main-page-post {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .small-post-btn {
-    width: 95%;
-    left: 2.5%;
-  }
-
-  .view-posts-wrapper {
-    padding: 0px 0px 30px 0px;
-    border-bottom: solid 1px cornflowerblue;
-  }
 }
 /***********************************
 
@@ -271,3 +230,16 @@ Footer
 
 ************************************/
 
+#footer {
+  height: 150px;
+  margin: 62px -20px 0 -20px;
+  padding: 60px 20px;
+  background-color: cornflowerblue;
+  color: white;
+}
+
+@media only screen and (max-width: 767px) {
+  #footer {
+    margin-top: 215px;
+  }
+}
