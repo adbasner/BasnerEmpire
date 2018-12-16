@@ -70,8 +70,6 @@ nav {
   width: 100%;
   box-sizing: border-box;
   border-bottom: solid 10px #121212;
-  transition-duration: 0.2s;
-  transition-property: border;
   cursor: pointer;
 }
 

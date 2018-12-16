@@ -1,13 +1,10 @@
-var targets = selectTargets();
-let anchors = targets[0];
-let links = targets[1];
+let headerDiv = document.querySelector('#header').offsetTop;
+let aboutDiv = document.querySelector('#about').offsetTop;
+let contactDiv = document.querySelector('#contact').offsetTop;
+let postsDiv = document.querySelector('#posts').offsetTop;
 
-window.onload = function navClickAndScroll() {
-  for (let i = 0; i < 4; i++) {
-    links[i].addEventListener('click', () => toggleHome(links));
-    links[i].addEventListener('click', () => gotoAnchor(anchors[i]));
-  }
-};
+let anchors = [headerDiv, aboutDiv, contactDiv, postsDiv];
+let links = document.querySelectorAll('.nav-link');
 
 window.onscroll = function scrollClass() {
   var scrollPosY = window.pageYOffset;
@@ -23,24 +20,7 @@ window.onscroll = function scrollClass() {
   if (scrollPosY + 300 >= anchors[3]) {
     togglePost(links);
   }
-  
 };
-
-function selectTargets() {
-  let headerDiv = document.querySelector('#header').offsetTop;
-  let aboutDiv = document.querySelector('#about').offsetTop;
-  let contactDiv = document.querySelector('#contact').offsetTop;
-  let postsDiv = document.querySelector('#posts').offsetTop;
-  
-  let anchors = [headerDiv, aboutDiv, contactDiv, postsDiv];
-  let links = document.querySelectorAll('.nav-link');
-  return [anchors,links];
-}
-
-
-function gotoAnchor(anchor) {
-  window.scrollTo({left: 0, top: anchor, behavior: 'smooth' });
-}
 
 function toggleHome(links) {
   links[0].classList.add('nav-active');

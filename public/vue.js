@@ -1,12 +1,19 @@
 Vue.component('nav-bar', {
   template:
     '<nav>' +
-      '<button class="nav-link nav-active">BASNER MEDIA</button>' +
-      '<button class="nav-link">ABOUT</button>' +
-      '<button class="nav-link">CONTACT</button> ' +
-      '<button class="nav-link">RECENT POST</button>' +
+      '<button class="nav-link nav-active" @click="goto(\'header\')">BASNER MEDIA</button>' +
+      '<button class="nav-link" @click="goto(\'about\')">ABOUT</button>' +
+      '<button class="nav-link" @click="goto(\'contact\')">CONTACT</button> ' +
+      '<button class="nav-link" @click="goto(\'posts\')">RECENT POST</button>' +
       '<button class="nav-link">ALL ARTICLES</button>' +
-    '</nav>'
+    '</nav>',
+  methods: {
+    goto(anchor) {
+      let el = document.getElementById(anchor);
+ 
+      window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
+    }
+  }
 });
 
 Vue.component('header-img', {
