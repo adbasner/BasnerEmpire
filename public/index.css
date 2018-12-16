@@ -13,16 +13,30 @@ body {
   box-sizing: border-box;
 }
 
+.content-wrapper {
+  margin: 0 20px;
+}
 .center {
   text-align: center;
 }
 
-/*
-@media only screen and (max-width: 767px) {
-  .admin-wrapper {
-    margin-top: 168px;
-  }
-}*/
+.btn {
+  padding: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: cornflowerblue;
+  box-shadow: 0 0 2px cornflowerblue;
+  border: solid 1px cornflowerblue;
+}
+
+.btn:focus {
+  box-shadow: 0 0 15px cornflowerblue;
+  outline: none;
+}
 
 /***********************************
 
@@ -40,6 +54,7 @@ nav {
   text-align: center;
   position: fixed;
   top: 0;
+  z-index: 99;
 }
 
 .nav-link {
@@ -126,6 +141,7 @@ Header
   background-size: cover;
   height: 600px;
   display: flex;
+  flex-direction: column;
   align-items: center; 
   justify-content: center;
 }
@@ -136,6 +152,7 @@ Header
 }
 
 #header-subtext {
+  color: #fff;
   font-size: 2.5rem;
 }
 
@@ -149,19 +166,95 @@ Header
   }
 }
 
-
-
-
 /***********************************
 
 About
 
 ************************************/
+
 /***********************************
 
 Posts
 
 ************************************/
+
+#post-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  padding-bottom: 30px;
+
+}
+
+.main-page-post {
+  box-sizing: border-box;
+  width: 32%;
+  border-radius: 5px;
+  padding: 1%;
+  padding-bottom: 60px;
+  box-shadow: 0 0 5px #020202;
+  position: relative;
+}
+
+.main-page-post:hover {
+  box-shadow: 0 0 10px #020202;
+}
+
+.main-page-post h3 {
+  margin: 10px 0 10px 0;
+}
+
+.post-content {
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.small-post-btn {
+  position: absolute;
+  left: 5%;
+  bottom: 10px;
+  width: 90%;
+}
+
+#view-posts-btn {
+  width: 100%;
+  max-width: 400px;
+  background-color: #edbc64;
+  border-color: #edbc64;
+  box-shadow: 0 0 2px #edbc64;
+}
+
+#view-posts-btn:focus {
+  box-shadow: 0 0 15px #edbc64;
+}
+
+.view-posts-wrapper {
+  padding: 30px 0px 60px 0px;
+  border-bottom: solid 1px cornflowerblue;
+}
+
+@media only screen and (max-width: 767px) {
+  #post-wrapper {
+    flex-direction: column;
+    padding-bottom: 10px;
+  }
+
+  .main-page-post {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .small-post-btn {
+    width: 95%;
+    left: 2.5%;
+  }
+
+  .view-posts-wrapper {
+    padding: 0px 0px 30px 0px;
+    border-bottom: solid 1px cornflowerblue;
+  }
+}
 /***********************************
 
 Footer

@@ -18,7 +18,7 @@ Vue.component('header-img', {
   template: 
   '<div id="header" class="anchor">' +
     '<div id="header-img">' +
-      '<h1 id="header-text" class="center">Welcome to Basner Media</h2>' +
+      '<h1 id="header-text" class="center">Welcome to Basner Media</h1>' +
       '<h2 id="header-subtext" class="center">Info and insight on web development</h2>' +
     '</div>' +
   '</div>'
@@ -47,11 +47,19 @@ Vue.component('intro-blog-posts', {
   template:
     '<div id="posts" class="anchor">' +
       '<h2 class="center">Recent Blog Posts</h2>' +
-      '<div id="post-wrapper" v-for="post in posts">' +
-        '<div id="postOne" class="main-page-post"><h1>{{ post.title }}</h1></div>' +
-      '</div>' +
-      '<div class="btn-wrapper">' +
-        '<button class="btn btn-primary">View all posts</button>' +
+      '<div id="post-wrapper">' +
+        '<div class="main-page-post" v-for="post in posts">' +
+          '<h2 class="center">{{ post.title }}</h2>' + 
+          '<div class="post-content" v-html="post.content">' + 
+            '{{ post.content }}' + 
+          '</div>' +
+          '<button class="btn small-post-btn">' +
+            'Read post' +
+          '</button></a>' +
+        '</div> <!-- main-page-post -->'  +
+      '</div> <!-- post-wrapper -->' +
+      '<div class="center view-posts-wrapper">' +
+        '<button id="view-posts-btn" class="btn">View all posts</button>' +
       '</div>' +
     '</div>',
   data: function() {
@@ -65,20 +73,26 @@ Vue.component('intro-blog-posts', {
       .then(function(response) {
         console.log(response.data);
         let i = 0;
-        this.posts = response.data.posts;
+        this.posts = response.data.posts.slice(0, 3);
       }.bind(this));
   },
   methods: {},
   computes: {}
 });
 
+Vue.component('contact-me', {
+  
+});
+
 var HomePage = {
   template:
-      '<div id="main">' + 
+      '<div id="vue-main">' + 
         '<nav-bar></nav-bar>' +
         '<header-img></header-img>' +
-        '<about-section></about-section>' +
-        '<intro-blog-posts></intro-blog-posts>' +
+        '<div class="content-wrapper">' +
+          '<about-section></about-section>' +
+          '<intro-blog-posts></intro-blog-posts>' +
+        '</div> <!-- content-wrapper -->' +
       '</div> <!-- main -->',
   data: function() {
     return {
