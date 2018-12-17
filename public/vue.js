@@ -284,7 +284,7 @@ var AdminPostIndexPage = {
           '</div>' +
         '</div>' +
          
-        '<div v-for="post in posts">' + 
+        '<div class="post-wrapper" v-for="post in posts">' + 
           '<p>{{ post.title }}</p>' +
           '<p>{{ post.content }}</p>' +
         '</div>' +
