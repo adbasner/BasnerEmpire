@@ -25,10 +25,4 @@ class ApplicationController < ActionController::Base
       render json: { errors: ['You must be logged in to do that.'] }, status: :unauthorized
     end
   end
-
-  def authenticate_admin
-    unless current_user && current_user.admin
-      render json: { errors: ['You must be an admin to do that.'] }, status: :unauthorized
-    end
-  end
 end
