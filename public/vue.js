@@ -49,7 +49,7 @@ Vue.component('admin-sidebar', {
     `<div id="admin-sidebar">
       <router-link to="/dashboard/posts" class="side-link">view posts</router-link>
       <router-link to="/dashboard/posts/new" class="side-link">new post</router-link>
-      <router-link to="/dashboard" class="side-link">messages</router-link>
+      <router-link to="/dashboard/messages" class="side-link">messages</router-link>
     </div>`,
   methods: {
   },
@@ -81,33 +81,34 @@ Vue.component('about-section', {
       headerMsg: "Welcome to Basner Media Empire",
       message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     };
-  } 
+  },
 });
 
 Vue.component('contact-me', {
+  props: ['message'],
   template:`
     <div id="contact" class="anchor">
       <div id="contact-wrapper">
         <h2 class="center">Contact Me</h2>
-        <form>
+        <form method="post" @submit.prevent>
 
           <div class="inputbox">
             <label for="name">Name: </label>
-            <input id="name" type="text" name="name" placeholder="name">
+            <input id="name" type="text" name="name" v-model="message.name" required>
           </div>
 
           <div class="inputbox">
             <label for="email">Email: </label>
-            <input id="email" type="email" name="email" placeholder="email@example.com">
+            <input id="email" type="email" name="email" v-model="message.email" required>
           </div>
 
           <div class="inputbox">
            <label for="message">Message: </label>
-            <textarea rows="10" id="message" type="textarea" name="message" placeholder="Enter your message here"></textarea>
+            <textarea rows="10" id="message" type="textarea" name="message" v-model="message.message" required></textarea>
           </div>
-
+         
           <div class="inputbox">
-            '<input class="btn" type="submit" name="submit">
+            <input class="btn" type="submit" name="submit" v-on:click="$emit('submit')">
           </div>
 
         </form>
@@ -115,16 +116,8 @@ Vue.component('contact-me', {
     </div>`,
   data: function() {
     return {
-      posts: []
+      messages: {}
     };
-  },
-  created: function() {
-    axios
-      .get("/api/v1/posts")
-      .then(function(response) {
-        let i = 0;
-        this.posts = response.data.posts.slice(0, 3);
-      }.bind(this));
   }
 });
 
@@ -207,11 +200,38 @@ var HomePage = {
       '<header-img></header-img>' +
       '<div class="content-wrapper">' +
         '<about-section></about-section>' +
-        '<contact-me></contact-me>' +
+        '<contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>' +
         '<last-blog-post></last-blog-post>' +
         '<footer-section></footer-section>' +
       '</div> <!-- content-wrapper -->' +
-    '</div> <!-- main -->'
+    '</div> <!-- main -->',
+  data: function() {
+    return {
+      messages: {},
+      emailrrors: [],
+    }; 
+  },
+  methods: {
+    submit: function() {
+      
+      var params = {
+        name: this.messages.name || '',
+        email: this.messages.email || '',
+        message: this.messages.message || ''
+      };
+      if (params.name !== '' && params.email !== '' && params.message !== '') {
+        axios
+          .post('/api/v1/messages/', params)
+          .then(function(response) {
+            alert('Your message was sent');
+            window.scrollTo(0, 0);
+            location.reload(true);
+          });
+      } else {
+        alert('You must fill in a name, email and message if you want to sent a message!');
+      }
+    }
+  }
 };
 
 var LoginPage = {
@@ -345,7 +365,49 @@ var AdminPostIndexPage = {
       .catch(function(error) {
         this.errors = ['There seems to be a problem with the server right now.  Try again later'];
       }.bind(this));
+  }
+};
+
+var AdminMessagesIndexPage = {
+  template: 
+    `<div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+         
+        <div class="post-wrapper" v-for="message in messages"> 
+          <p>{{ message.name }} | 
+             {{ message.email }} | 
+             {{ message.message }} | 
+             {{ message.created_at }} | 
+             <a v-bind:href="'/#/dashboard/messages/' + message.id">View Message</a>                     
+          </p>
+        </div>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      messages: [],
+      errors: []
+    };
   },
+  created: function() {
+    axios
+      .get('/api/v1/messages')
+      .then(function(response) {
+        this.messages = response.data.messages;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  }
 };
 
 var AdminPostNewPage = {
@@ -438,6 +500,64 @@ var AdminPostShowPage = {
         this.errors = ['There seems to be a problem with the server right now.  Try again later'];
       }.bind(this));
   },
+};
+
+var AdminMessageShowPage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+         
+        <div class="post-wrapper"> 
+          <p>{{ message.name }} | 
+              {{ message.email }} | 
+              {{ message.message }} | 
+             {{ message.created_at }} |                       
+             <a @click="handleDelete()">Delete Message</a> |                      
+             <a v-bind:href="'/#/dashboard/messages/'">View all messages</a> |
+          </p>
+        </div>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      message: {},
+      errors: [],
+      messageId: this.$route.params.id
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/messages/' + this.messageId)
+      .then(function(response) {
+        this.message = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
+  methods: {
+    handleDelete: function() {
+      axios
+        .delete("/api/v1/messages/" + this.messageId)
+        .then(function(response) {
+          router.push("/dashboard/messages");
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
 };
 
 var AdminPostEditPage = {
@@ -565,6 +685,8 @@ var router = new VueRouter({
     { path: "/dashboard/posts/:id", component: AdminPostShowPage },
     { path: "/dashboard/posts/:id/edit", component: AdminPostEditPage },
     { path: "/dashboard/posts/:id/delete", component: AdminPostDeletePage },
+    { path: "/dashboard/messages", component: AdminMessagesIndexPage },
+    { path: "/dashboard/messages/:id", component: AdminMessageShowPage }
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {
