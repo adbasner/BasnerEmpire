@@ -180,11 +180,16 @@ Vue.component('post-form', {
           </div>
         </form>
       </div>
-      <button @click="replace()">Replace</button>
+      <div>
+        <h3>Use the editor below to copy and paste.</h3>
+        <textarea id='editor'>
+        </textarea>
+      </div>
+      <button @click="replace()">Switch this box to advanced mode</button>
     </div>`,
   methods: {
     replace: function() {
-      CKEDITOR.replace( 'content' );
+      CKEDITOR.replace( 'editor' );
     }
   }
 });
