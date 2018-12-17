@@ -337,7 +337,6 @@ var AdminPostIndexPage = {
     axios
       .get('/api/v1/posts')
       .then(function(response) {
-        console.log(response.data.posts);
         this.posts = response.data.posts;
       }.bind(this))
       .catch(function(error) {
@@ -376,18 +375,17 @@ var AdminPostNewPage = {
   methods: {
     submit: function() {
       var params = {
-        title: this.post.title,
-        content: this.post.content
+        title: this.post.title || '',
+        content: this.post.content || ''
       };
+
       axios
         .post('/api/v1/posts/', params)
         .then(function(response) {
-          console.log(response.body);
-          router.push('/dashboard/posts/' + response.body.post.id );
+          router.push('/dashboard/posts/' + response.data.id );
         })
         .catch(
           function(error) {
-            console.log(error);
             this.errors = error.response.data.errors;
           }.bind(this)
         );
@@ -411,7 +409,7 @@ var AdminPostShowPage = {
          
         <div class="post-wrapper"> 
           <p>{{ post.title }} | 
-             {{ post.content }} | 
+             <span  v-html="post.content">{{ post.content }}</span> | 
              {{ post.created_at }} | 
              <a v-bind:href="'/#/dashboard/posts/' + post.id + '/edit'">Edit Post</a> |                      
              <a v-bind:href="'/#/dashboard/posts/' + post.id + '/delete'">Delete Post</a> |                      
@@ -431,7 +429,6 @@ var AdminPostShowPage = {
     axios
       .get('/api/v1/posts/' + this.postId)
       .then(function(response) {
-        console.log(response.data);
         this.post = response.data;
       }.bind(this))
       .catch(function(error) {
@@ -471,7 +468,6 @@ var AdminPostEditPage = {
     axios
       .get('/api/v1/posts/' + this.postId)
       .then(function(response) {
-        console.log(response.data);
         this.post = response.data;
       }.bind(this))
       .catch(function(error) {
@@ -492,7 +488,63 @@ var AdminPostEditPage = {
         })
         .catch(
           function(error) {
-            console.log(error);
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var AdminPostDeletePage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+         
+        <div class="post-wrapper"> 
+          <p>{{ post.title }} | 
+             {{ post.content }} | 
+             {{ post.created_at }} | 
+             <button class='btn' @click="submit()">Delete this Post?</button>
+             <button class='btn'>No</button>
+          </p>
+        </div>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      post: {},
+      errors: [],
+      postId: this.$route.params.id
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts/' + this.postId)
+      .then(function(response) {
+        this.post = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      axios
+        .delete("/api/v1/posts/" + this.postId)
+        .then(function(response) {
+          router.push("/dashboard/posts");
+        }.bind(this))
+        .catch(
+          function(error) {
             this.errors = error.response.data.errors;
           }.bind(this)
         );
@@ -509,6 +561,7 @@ var router = new VueRouter({
     { path: "/dashboard/posts/new", component: AdminPostNewPage },
     { path: "/dashboard/posts/:id", component: AdminPostShowPage },
     { path: "/dashboard/posts/:id/edit", component: AdminPostEditPage },
+    { path: "/dashboard/posts/:id/delete", component: AdminPostDeletePage },
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {
