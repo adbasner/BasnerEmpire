@@ -397,12 +397,6 @@ Log In Page
   justify-content: center;
 }
 
-#login.alert-box {
-  position: absolute;
-  z-index: 99;
-  top: 5%;
-}
-
 .login-box {
   text-align: center;
   width: 300px;
@@ -419,7 +413,7 @@ Log In Page
 
 ************************************/
 
-#admin-wrapper {
+.admin-wrapper {
   margin-top: 59px;
   margin-left: 175px;
   background-color: #efefef;
@@ -432,7 +426,7 @@ Log In Page
 }
 
 @media only screen and (max-width: 767px) {
-  #admin-wrapper {
+  .admin-wrapper {
     margin-top: 0;
     margin-left: 0;
   }

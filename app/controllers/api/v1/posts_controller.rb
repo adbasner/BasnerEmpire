@@ -30,7 +30,7 @@ class Api::V1::PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user_id = 1
+    @post.user_id = current_user.id
     if @post.save
       render 'show.json.jbuilder'
     else

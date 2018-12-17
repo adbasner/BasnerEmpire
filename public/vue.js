@@ -188,7 +188,7 @@ var LoginPage = {
       '<div id="login">' +
         '<div class="alert-box">' +
           '<div class="alert alert-danger" v-for="error in errors">' +
-            'WARNING: {{ error }}' + 
+            '{{ error }}' + 
             '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
           '</div>' +
         '</div>' +
@@ -268,7 +268,9 @@ var DashboardPage = {
     '<div id="vue-admin-main">' +
       '<admin-navbar></admin-navbar>' +
       '<admin-sidebar></admin-sidebar>' + 
-      '<div>Welcome Andrew, you are going to have an awesome day</div>' +
+      '<div class="admin-wrapper">' + 
+        '<div>Welcome Andrew, you are going to have an awesome day</div>' +
+      '</div>' +
     '</div>',
 };
 
@@ -277,11 +279,11 @@ var AdminPostIndexPage = {
     '<div id="vue-admin-main">' +
       '<admin-navbar></admin-navbar>' +
       '<admin-sidebar></admin-sidebar>' + 
-      '<div id="admin-wrapper">' + 
+      '<div class="admin-wrapper">' + 
 
         '<div class="alert-box">' +
           '<div class="alert alert-danger" v-for="error in errors">' +
-            'WARNING: {{ error }}' + 
+            '{{ error }}' + 
             '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
           '</div>' +
         '</div>' +
