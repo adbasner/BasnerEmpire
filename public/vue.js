@@ -4,9 +4,9 @@
 //
 // *****************************
 
-Vue.component('home-nav-bar', {
+Vue.component('home-navbar', {
   template:
-    '<nav>' +
+    '<nav id="home-navbar">' +
       '<router-link to="" class="nav-link nav-active" @click.native="goto(\'header\')">BASNER MEDIA</router-link>' +
       '<router-link to="" class="nav-link" @click.native="goto(\'about\')">ABOUT</router-link>' +
       '<router-link to="" class="nav-link" @click.native="goto(\'contact\')">CONTACT</router-link>' +
@@ -21,9 +21,9 @@ Vue.component('home-nav-bar', {
   }
 });
 
-Vue.component('admin-nav-bar', {
+Vue.component('admin-navbar', {
   template:
-    '<nav>' +
+    '<nav id="admin-navbar">' +
       '<router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>' +
       '<router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>' +
       '<router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>' +
@@ -42,6 +42,17 @@ Vue.component('admin-nav-bar', {
       router.push('/login');
     },
   }
+});
+
+Vue.component('admin-sidebar', {
+  template:
+    '<div id="admin-sidebar">' +
+      '<router-link to="/dashboard/posts" class="side-link">view posts</router-link>' +
+      '<router-link to="/dashboard" class="side-link">new post</router-link>' +
+      '<router-link to="to" class="side-link" @click.native="logout">messages</router-link>' +
+    '</div>',
+  methods: {
+  },
 });
 
 Vue.component('header-img', {
@@ -160,7 +171,7 @@ Vue.component('footer-section', {
 var HomePage = {
   template:
     '<div id="vue-home-main">' + 
-      '<home-nav-bar></home-nav-bar>' +
+      '<home-navbar></home-navbar>' +
       '<header-img></header-img>' +
       '<div class="content-wrapper">' +
         '<about-section></about-section>' +
@@ -177,9 +188,9 @@ var LoginPage = {
       '<div id="login">' +
         '<div class="alert-box">' +
           '<div class="alert alert-danger" v-for="error in errors">' +
-          'WARNING: {{ error }}' + 
-          '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
-        '</div>' +
+            'WARNING: {{ error }}' + 
+            '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
+          '</div>' +
         '</div>' +
         '<h1>LOGIN</h1>' +
         '<div class="login-box">' +
@@ -235,9 +246,7 @@ var LoginPage = {
           })
           .catch(
             function(error) {
-              this.errors = ['Incorrect email or password'];
-              this.email = "";
-              this.password = "";
+              this.errors = error.response.data.errors;
             }.bind(this)
           );
       } 
@@ -254,15 +263,59 @@ var LoginPage = {
 
 var DashboardPage = {
   template: 
-    '<admin-nav-bar></admin-nav-bar>'
+    '<div id="vue-admin-main">' +
+      '<admin-navbar></admin-navbar>' +
+      '<admin-sidebar></admin-sidebar>' + 
+      '<div>Welcome Andrew, you are going to have an awesome day</div>' +
+    '</div>',
+};
+
+var AdminPostIndexPage = {
+  template: 
+    '<div id="vue-admin-main">' +
+      '<admin-navbar></admin-navbar>' +
+      '<admin-sidebar></admin-sidebar>' + 
+      '<div id="admin-wrapper">' + 
+
+        '<div class="alert-box">' +
+          '<div class="alert alert-danger" v-for="error in errors">' +
+            'WARNING: {{ error }}' + 
+            '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
+          '</div>' +
+        '</div>' +
+         
+        '<div v-for="post in posts">' + 
+          '<p>{{ post.title }}</p>' +
+          '<p>{{ post.content }}</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>',
+  data: function() {
+    return {
+      posts: [],
+      errors: []
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts')
+      .then(function(response) {
+        console.log(response.data.posts);
+        this.posts = response.data.posts;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
 };
 
 var router = new VueRouter({
   routes: [ 
     { path: "/", component: HomePage },    
     { path: "/login", component: LoginPage },
-    { path: "/dashboard", component: DashboardPage},
-    { path: "/about", component: HomePage }   
+    { path: "/dashboard", component: DashboardPage },
+    { path: "/dashboard/posts", component: AdminPostIndexPage },
+
   ], 
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

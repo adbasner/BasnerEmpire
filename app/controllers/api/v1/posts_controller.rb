@@ -4,7 +4,13 @@ class Api::V1::PostsController < ApplicationController
 
   def index
     @posts = Post.all.order(created_at: :desc)
-    render 'index.json.jbuilder'
+    if @posts.length > 1
+      render 'index.json.jbuilder'
+    else
+      error_title = 'There have been no post made yet'
+      error_message = 'Expect some soon!'
+      render json: { posts: [{ title: error_title, content: error_message }] }
+    end
   end
 
   def show
