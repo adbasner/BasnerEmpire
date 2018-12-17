@@ -246,7 +246,9 @@ var LoginPage = {
           })
           .catch(
             function(error) {
-              this.errors = error.response.data.errors;
+              this.errors = ['Incorrect email or password'];
+              this.email = "";
+              this.password = "";
             }.bind(this)
           );
       } 
