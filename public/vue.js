@@ -167,30 +167,28 @@ Vue.component('post-form', {
     <div class="post-form">
       <div class="post-wrapper">
         <form  method="post" @submit.prevent>
-
           <div class="inputbox">
             <label for="title">Title: </label>
             <input id="title" type="text" name="title" v-model="post.title">
           </div>
-
           <div class="inputbox">
            <label for="content">Content: </label>
             <textarea rows="10" id="content" type="textarea" name="content" v-model="post.content"></textarea>
           </div>
-
-     
           <div class="inputbox">
             <input class="btn" type="submit" v-bind:value="formType" name="submit" v-on:click="$emit('submit')" >
-          </div> 
-
+          </div>
         </form>
       </div>
+      <button @click="replace()">Replace</button>
     </div>`,
+  methods: {
+    replace: function() {
+      CKEDITOR.replace( 'content' );
+    }
+  }
 });
-
-    // 
           
-
 // *****************************
 //
 // Pages 
