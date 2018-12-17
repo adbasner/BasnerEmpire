@@ -14,7 +14,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def show
-    render 'show.json.jbuilder'
+    if @post
+      render 'show.json.jbuilder'
+    else
+      error_title = "This post doesn't seem to exist yet."
+      error_message = 'Expect it soon!'
+      render json: { title: error_title, content: error_message }
+    end
   end
 
   def last

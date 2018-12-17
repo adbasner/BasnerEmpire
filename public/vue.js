@@ -6,13 +6,13 @@
 
 Vue.component('home-navbar', {
   template:
-    '<nav id="home-navbar">' +
-      '<router-link to="" class="nav-link nav-active" @click.native="goto(\'header\')">BASNER MEDIA</router-link>' +
-      '<router-link to="" class="nav-link" @click.native="goto(\'about\')">ABOUT</router-link>' +
-      '<router-link to="" class="nav-link" @click.native="goto(\'contact\')">CONTACT</router-link>' +
-      '<router-link to="" class="nav-link" @click.native="goto(\'posts\')">RECENT POST</router-link>' +
-      '<router-link to="" class="nav-link" @click.native="goto(\'posts\')">ALL ARTICLES</router-link>' +
-    '</nav>',
+    `<nav id="home-navbar">
+      <a class="nav-link nav-active" @click="goto('header')">BASNER MEDIA</a>
+      <a class="nav-link" @click="goto('about')">ABOUT</a>
+      <a class="nav-link" @click="goto('contact')">CONTACT</a>
+      <a class="nav-link" @click="goto('posts')">RECENT POST</a>
+      <router-link to="" class="nav-link" @click.native="goto('posts')">ALL ARTICLES</router-link>
+    </nav>`,
   methods: {
     goto(anchor) {
       let el = document.getElementById(anchor);
@@ -23,12 +23,12 @@ Vue.component('home-navbar', {
 
 Vue.component('admin-navbar', {
   template:
-    '<nav id="admin-navbar">' +
-      '<router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>' +
-      '<router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>' +
-      '<router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>' +
-      '<router-link to="to" class="nav-link" @click.native="logout">LOG OUT</router-link>' +
-    '</nav>',
+    `<nav id="admin-navbar">
+      <router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>
+      <router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>
+      <router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>
+      <a class="nav-link" @click="logout">LOG OUT</a>
+    </nav>`,
   created: function() {
     if (!localStorage.getItem('jwt')) {
       router.push('login');
@@ -46,11 +46,11 @@ Vue.component('admin-navbar', {
 
 Vue.component('admin-sidebar', {
   template:
-    '<div id="admin-sidebar">' +
-      '<router-link to="/dashboard/posts" class="side-link">view posts</router-link>' +
-      '<router-link to="/dashboard" class="side-link">new post</router-link>' +
-      '<router-link to="to" class="side-link" @click.native="logout">messages</router-link>' +
-    '</div>',
+    `<div id="admin-sidebar">
+      <router-link to="/dashboard/posts" class="side-link">view posts</router-link>
+      <router-link to="/dashboard/posts/new" class="side-link">new post</router-link>
+      <router-link to="/dashboard" class="side-link">messages</router-link>
+    </div>`,
   methods: {
   },
 });
@@ -85,34 +85,34 @@ Vue.component('about-section', {
 });
 
 Vue.component('contact-me', {
-  template:
-    '<div id="contact" class="anchor">' +
-      '<div id="contact-wrapper">' +
-        '<h2 class="center">Contact Me</h2>' +
-       ' <form>' +
+  template:`
+    <div id="contact" class="anchor">
+      <div id="contact-wrapper">
+        <h2 class="center">Contact Me</h2>
+        <form>
 
-          '<div class="inputbox">' +
-            '<label for="name">Name: </label>' +
-            '<input id="name" type="text" name="name" placeholder="name">' +
-          '</div>' +
+          <div class="inputbox">
+            <label for="name">Name: </label>
+            <input id="name" type="text" name="name" placeholder="name">
+          </div>
 
-          '<div class="inputbox">' +
-            '<label for="email">Email: </label>' +
-            '<input id="email" type="email" name="email" placeholder="email@example.com">' +
-          '</div>' +
+          <div class="inputbox">
+            <label for="email">Email: </label>
+            <input id="email" type="email" name="email" placeholder="email@example.com">
+          </div>
 
-          '<div class="inputbox">' +
-            '<label for="message">Message: </label>' +
-            '<textarea rows="10" type="textarea" name="message"placeholder="Enter your message here"></textarea>' +
-          '</div>' +
+          <div class="inputbox">
+           <label for="message">Message: </label>
+            <textarea rows="10" id="message" type="textarea" name="message" placeholder="Enter your message here"></textarea>
+          </div>
 
-          '<div class="inputbox">' +
-            '<input class="btn" type="submit" name="submit">' +
-          '</div>' +
+          <div class="inputbox">
+            '<input class="btn" type="submit" name="submit">
+          </div>
 
-        '</form>' +
-      '</div>' +
-    '</div>',
+        </form>
+      </div>
+    </div>`,
   data: function() {
     return {
       posts: []
@@ -161,6 +161,35 @@ Vue.component('footer-section', {
   '</footer>'
 });
 
+Vue.component('post-form', {
+  props: ['post', 'formType'],
+  template:`
+    <div class="post-form">
+      <div class="post-wrapper">
+        <form  method="post" @submit.prevent>
+
+          <div class="inputbox">
+            <label for="title">Title: </label>
+            <input id="title" type="text" name="title" v-model="post.title">
+          </div>
+
+          <div class="inputbox">
+           <label for="content">Content: </label>
+            <textarea rows="10" id="content" type="textarea" name="content" v-model="post.content"></textarea>
+          </div>
+
+     
+          <div class="inputbox">
+            <input class="btn" type="submit" v-bind:value="formType" name="submit" v-on:click="$emit('submit')" >
+          </div> 
+
+        </form>
+      </div>
+    </div>`,
+});
+
+    // 
+          
 
 // *****************************
 //
@@ -195,7 +224,7 @@ var LoginPage = {
         '<h1>LOGIN</h1>' +
         '<div class="login-box">' +
           '<label for="email">Email:</label>' +
-          '<input id="email" type="email" class="form-control" v-model="email">' +
+          '<input id="email" required type="email" class="form-control" v-model="email">' +
         '</div>' +
         '<div class="login-box">' +
          ' <label for="password">Password:</label>' +
@@ -276,27 +305,31 @@ var DashboardPage = {
 
 var AdminPostIndexPage = {
   template: 
-    '<div id="vue-admin-main">' +
-      '<admin-navbar></admin-navbar>' +
-      '<admin-sidebar></admin-sidebar>' + 
-      '<div class="admin-wrapper">' + 
+    `<div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
 
-        '<div class="alert-box">' +
-          '<div class="alert alert-danger" v-for="error in errors">' +
-            '{{ error }}' + 
-            '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
-          '</div>' +
-        '</div>' +
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
          
-        '<div class="post-wrapper" v-for="post in posts">' + 
-          '<p>{{ post.title }}</p>' +
-          '<p>{{ post.content }}</p>' +
-        '</div>' +
-      '</div>' +
-    '</div>',
+        <div class="post-wrapper" v-for="post in posts"> 
+          <p>{{ post.title }} | 
+             {{ post.content }} | 
+             {{ post.created_at }} | 
+             <a v-bind:href="'/#/dashboard/posts/' + post.id">View Post</a>                     
+          </p>
+        </div>
+      </div>
+    </div>`,
   data: function() {
     return {
       posts: [],
+
       errors: []
     };
   },
@@ -313,12 +346,169 @@ var AdminPostIndexPage = {
   },
 };
 
+var AdminPostNewPage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+
+        <post-form v-bind:post='post' v-bind:formType='formType' v-on:submit="submit" ></post-form>
+
+
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      post: {},
+      errors: [],
+      postId: this.$route.params.id,
+      formType: 'New Post'
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.post.title,
+        content: this.post.content
+      };
+      axios
+        .post('/api/v1/posts/', params)
+        .then(function(response) {
+          console.log(response.body);
+          router.push('/dashboard/posts/' + response.body.post.id );
+        })
+        .catch(
+          function(error) {
+            console.log(error);
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var AdminPostShowPage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+         
+        <div class="post-wrapper"> 
+          <p>{{ post.title }} | 
+             {{ post.content }} | 
+             {{ post.created_at }} | 
+             <a v-bind:href="'/#/dashboard/posts/' + post.id + '/edit'">Edit Post</a> |                      
+             <a v-bind:href="'/#/dashboard/posts/' + post.id + '/delete'">Delete Post</a> |                      
+             <a v-bind:href="'/#/dashboard/posts/'">View all posts</a> |
+          </p>
+        </div>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      post: {},
+      errors: [],
+      postId: this.$route.params.id
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts/' + this.postId)
+      .then(function(response) {
+        console.log(response.data);
+        this.post = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
+};
+
+var AdminPostEditPage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+
+        <div class="alert-box">
+          <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        </div>
+
+        <post-form v-bind:post='post' v-bind:formType='formType' v-on:submit="submit" ></post-form>
+
+
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      post: {},
+      errors: [],
+      postId: this.$route.params.id,
+      formType: 'Edit'
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts/' + this.postId)
+      .then(function(response) {
+        console.log(response.data);
+        this.post = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        title: this.post.title,
+        content: this.post.content
+      };
+      var route = "/dashboard/posts/" + this.postId;
+      axios
+        .patch("/api/v1/posts/" + this.postId, params)
+        .then(function(response) {
+          router.push(route);
+        })
+        .catch(
+          function(error) {
+            console.log(error);
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
 var router = new VueRouter({
   routes: [ 
     { path: "/", component: HomePage },    
     { path: "/login", component: LoginPage },
     { path: "/dashboard", component: DashboardPage },
     { path: "/dashboard/posts", component: AdminPostIndexPage },
+    { path: "/dashboard/posts/new", component: AdminPostNewPage },
+    { path: "/dashboard/posts/:id", component: AdminPostShowPage },
+    { path: "/dashboard/posts/:id/edit", component: AdminPostEditPage },
 
   ], 
   scrollBehavior: function(to, from, savedPosition) {
