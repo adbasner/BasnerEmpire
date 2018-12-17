@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :posts, except: [:new, :edit]
+      resources :messages, except: [:new, :edit, :update]
       get '/lastpost/' => 'posts#last'
     end
   end
