@@ -1,3 +1,39 @@
+/*****************************
+
+ css reset from 
+ https://cssreset.com/scripts/eric-meyer-reset-css/ 
+
+ ****************************/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  line-height: 1;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 /***********************************
 
 Global Styles
@@ -7,10 +43,11 @@ Global Styles
 body {
   background-color: #efefef;
   color: #121212;
-  font-family: arial, "sans-serif";
+  font-family: Helventica, Arial, "sans-serif";
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 .content-wrapper {
@@ -19,6 +56,13 @@ body {
 .center {
   text-align: center;
 }
+
+/***********************************
+
+Buttons
+
+************************************/
+
 
 .btn {
   padding: 8px;
@@ -40,27 +84,113 @@ body {
 
 /***********************************
 
-Nav Bars
+Client Side Nav Bar
 
 ************************************/
 
 nav {
-  background: #121212; 
-  color: #dedede;
+  /*Height is 56 px with 16px nav text*/
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   text-align: center;
+  align-items: center;
 
 }
 
-nav#home-navbar,
+.nav-link {
+  background-color: #121212;
+  color: #efefef;
+  text-decoration: none;
+  padding: 20px 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-right: 1pt solid #efefef;
+  display: inline-block;
+  width: 100%;
+  border-bottom: solid 10px #121212;
+  cursor: pointer;
+  text-transform: uppercase;
+ 
+  /*transition-property: display;*/
+}
+
+.nav-link:last-of-type {
+  border-right: none;
+}
+
+.nav-active {
+  border-bottom: solid 10px cornflowerblue;
+}
+
+.nav-link:hover {
+  background-color: cornflowerblue;
+  border-bottom: solid 10px cornflowerblue;
+}
+
+.nav-link:focus,
+.side-link:focus {
+  outline: none;
+}
+
+#toggle-icon {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  nav {
+    flex-direction: column;
+  }
+
+  .nav-link {
+    padding: 10px 10px 10px 10px;
+    border-bottom: none;
+    border-right: none;
+    width: 100%;
+    display: none;
+  }
+
+  .nav-link:first-of-type {
+    display: inline-block;
+  }
+
+  .nav-active {    
+    border-left: solid 20px cornflowerblue;
+  }
+
+  .nav-link:hover {
+    border-bottom: none;
+  }
+  
+  .responsive {
+    display: inline-block;
+  }
+
+  #toggle-icon {
+    font-size: 26px;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 5%;
+  }
+}
+
+
+/***********************************
+
+Client Side Nav Bar
+
+***********************************
+
+/*nav#home-navbar,
 nav#admin-navbar {
   position: fixed;
   top: 0;
   z-index: 99;
-}
+}*/
 
 div#admin-sidebar {
   position: fixed;
@@ -70,26 +200,8 @@ div#admin-sidebar {
   width: 175px;
   height: 100vh;
   background-color: #242424;
-
 }
 
-.nav-link {
-  border: none;
-  background-color: #121212;
-  text-decoration: none;
-  color: #efefef;
-  padding: 20px 0 10px 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  box-sizing: border-box;
-  border-right: 1pt solid #efefef;
-  display: inline-block;
-  width: 100%;
-  border-bottom: solid 10px #121212;
-  cursor: pointer;
-  line-height: 1;
-  text-transform: uppercase;
-}
 
 .side-link {
   text-align: center;
@@ -111,25 +223,15 @@ div#admin-sidebar {
   text-transform: uppercase;
 }
 
-.nav-link:last-of-type {
-  border-right: none;
-}
 
-.nav-link:hover, 
-.nav-active {
-  border-bottom: solid 10px #edbc64;
-}
 
 .side-link:hover {
   border-right: solid 10px #edbc64;
 }
 
-.nav-link:focus,
-.side-link:focus {
-  outline: none;
-}
 
-@media only screen and (max-width: 767px) {
+
+/*@media only screen and (max-width: 767px) {
   nav {
     flex-direction: column;
   }
@@ -161,7 +263,7 @@ div#admin-sidebar {
     border-bottom: solid 10px #edbc64;
   }
 
-}
+}*/
 
 /***********************************
 

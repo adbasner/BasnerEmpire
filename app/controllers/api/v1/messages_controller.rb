@@ -1,6 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
   before_action :set_message, only: [:show, :destroy]
-  # before_action :require_current_user, only: [:index, :show, :destroy]
+  before_action :require_current_user, only: [:index, :show, :destroy]
 
   def index
     @messages = Message.all.order(created_at: :desc)

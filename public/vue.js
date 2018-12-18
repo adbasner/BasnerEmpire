@@ -7,16 +7,24 @@
 Vue.component('home-navbar', {
   template:
     `<nav id="home-navbar">
-      <a class="nav-link nav-active" @click="goto('header')">BASNER MEDIA</a>
-      <a class="nav-link" @click="goto('about')">ABOUT</a>
-      <a class="nav-link" @click="goto('contact')">CONTACT</a>
-      <a class="nav-link" @click="goto('posts')">RECENT POST</a>
-      <router-link to="" class="nav-link" @click.native="goto('posts')">ALL ARTICLES</router-link>
+      <a class="nav-link nav-active" @click="goto('header')">basner media</a>
+      <a class="nav-link" @click="goto('about')">about</a>
+      <a class="nav-link" @click="goto('contact')">contact</a>
+      <a class="nav-link" @click="goto('posts')">recent articles</a>
+      <router-link to="" class="nav-link" @click.native="goto('posts')">all articles</router-link>
+      <a class="nav-link" id="toggle-icon" @click="toggleNav">&#9776;</a>
     </nav>`,
   methods: {
-    goto(anchor) {
+    goto: function(anchor) {
       let el = document.getElementById(anchor);
       window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
+    },
+
+    toggleNav: function() {
+      const navItems = document.querySelectorAll(".nav-link");
+      navItems.forEach(navItem => 
+        navItem.classList.toggle('responsive')
+      );
     }
   }
 });
