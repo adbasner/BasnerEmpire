@@ -11,8 +11,8 @@ Vue.component('home-navbar', {
       <a class="nav-link" @click="goto('about')">about</a>
       <a class="nav-link" @click="goto('contact')">contact</a>
       <a class="nav-link" @click="goto('posts')">recent articles</a>
-      <router-link to="" class="nav-link" @click.native="goto('posts')">all articles</router-link>
-      <a class="nav-link" id="toggle-icon" @click="toggleNav">&#9776;</a>
+      <router-link to="" class="nav-link nav-no-right-border" @click.native="goto('posts')">all articles</router-link>
+      <a class="nav-link nav-no-right-border" id="toggle-icon" @click="toggleNav">&#9776;</a>
     </nav>`,
   methods: {
     goto: function(anchor) {
@@ -65,11 +65,9 @@ Vue.component('admin-sidebar', {
 
 Vue.component('header-img', {
   template: 
-  '<div id="header" class="anchor">' +
-    '<div id="header-img">' +
+  '<div id="header">' +
       '<h1 id="header-text" class="center">Welcome to Basner Media</h1>' +
       '<h2 id="header-subtext" class="center">Info and insight on web development</h2>' +
-    '</div>' +
   '</div>'
 });
 
@@ -206,12 +204,6 @@ var HomePage = {
     '<div id="vue-home-main">' + 
       '<home-navbar></home-navbar>' +
       '<header-img></header-img>' +
-      '<div class="content-wrapper">' +
-        '<about-section></about-section>' +
-        '<contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>' +
-        '<last-blog-post></last-blog-post>' +
-        '<footer-section></footer-section>' +
-      '</div> <!-- content-wrapper -->' +
     '</div> <!-- main -->',
   data: function() {
     return {
@@ -241,6 +233,13 @@ var HomePage = {
     }
   }
 };
+
+      // '<div class="content-wrapper">' +
+      //   '<about-section></about-section>' +
+      //   '<contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>' +
+      //   '<last-blog-post></last-blog-post>' +
+      //   '<footer-section></footer-section>' +
+      // '</div> <!-- content-wrapper -->' +
 
 var LoginPage = {
   template:
