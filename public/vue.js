@@ -134,50 +134,53 @@ Vue.component('contact-me', {
         </div>
        
         <div class="inputbox">
-          <input class="btn" type="submit" name="submit" v-on:click="$emit('submit')">
+          <input class="btn form-btn" type="submit" name="submit" v-on:click="$emit('submit')">
         </div>
 
       </form>
     </div>
   `,
-  data: function() {
-    return {
-      messages: {}
-    };
-  }
 });
 
-Vue.component('last-blog-post', {
-  template:
-    '<div id="posts" class="content-wrapper">' +
-      '<div class="main-page-post">' +
-        '<h3>{{ lastpost.title }}</h3>' + 
-        '<div class="post-content" v-html="lastpost.content">' + 
-          '{{ lastpost.content }}' + 
-        '</div>' +
-        '<div id="vpb-div" class="center"><button id="view-posts-btn" class="btn">View all blog posts</button></div>' +
-      '</div> <!-- main-page-post -->'  +
-    '</div>',
-  data: function() {
-    return {
-      lastpost: {}
-    };
-  },
-  created: function() {
-    axios
-      .get("/api/v1/lastpost")
-      .then(function(response) {
-        let i = 0;
-        this.lastpost = response.data;
-      }.bind(this));
-  }
+Vue.component('client-articles-index', {
+  props: ['errors', 'posts'],
+  template:`
+    <div id="posts" class="content-wrapper">
+      <div class="alert-box">
+        <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+      </div>
+         
+      <div class="post-wrapper" v-for="post in posts"> 
+        <a v-bind:href="'/#/articles/' + post.id">
+          <h2>{{ post.title }}</h2> 
+          <p>Created on: {{ post.created_at }}</p>
+        </a>
+      </div>
+    </div>
+  `
 });
 
-Vue.component('footer-section', {
-  template: 
-  '<footer id="footer"">' +
-      '<a href="/#/dashboard">Dashboard</a>' +
-  '</footer>'
+Vue.component('client-articles-show', {
+  props: ['errors', 'post'],
+  template:`
+    <div id="posts" class="content-wrapper">
+      <div class="alert-box">
+        <div class="alert alert-danger" v-for="error in errors">
+            {{ error }} 
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+      </div>
+         
+      <div class="post-wrapper"> 
+        <h2> {{ post.title }} </h2> 
+        <h3>{{ post.created_at }}</h3>
+        <div v-html="post.content">{{ post.content }}</div>
+      </div>
+    </div>
+  `
 });
 
 Vue.component('post-form', {
@@ -195,7 +198,7 @@ Vue.component('post-form', {
             <textarea rows="10" id="content" type="textarea" name="content" v-model="post.content"></textarea>
           </div>
           <div class="inputbox">
-            <input class="btn" type="submit" v-bind:value="formType" name="submit" v-on:click="$emit('submit')" >
+            <input class="btn form-btn" type="submit" v-bind:value="formType" name="submit" v-on:click="$emit('submit')" >
           </div>
         </form>
       </div>
@@ -205,14 +208,20 @@ Vue.component('post-form', {
         </textarea>
       </div>
       <button @click="replace()">Switch this box to advanced mode</button>
-    </div>`,
+    </div>
+  `,
   methods: {
     replace: function() {
       CKEDITOR.replace( 'editor' );
     }
   }
 });
-          
+      
+Vue.component('alert-box', {
+  template:`
+  
+  `
+}); 
 // *****************************
 //
 // Pages 
@@ -224,32 +233,12 @@ let TheHomePage = {
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
       <header-img></header-img>
-    </div> <!-- main -->`,
+    </div>
+  `,
   data: function() {
     return {
       page: 'home'
     }; 
-  },
-  methods: {
-    submit: function() {
-      
-      var params = {
-        name: this.messages.name || '',
-        email: this.messages.email || '',
-        message: this.messages.message || ''
-      };
-      if (params.name !== '' && params.email !== '' && params.message !== '') {
-        axios
-          .post('/api/v1/messages/', params)
-          .then(function(response) {
-            alert('Your message was sent');
-            window.scrollTo(0, 0);
-            location.reload(true);
-          });
-      } else {
-        alert('You must fill in a name, email and message if you want to sent a message!');
-      }
-    }
   }
 };
 
@@ -258,7 +247,8 @@ let TheAboutPage = {
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
       <about-section></about-section>
-    </div> <!-- main -->`,
+    </div>
+  `,
   data: function() {
     return {
       page: 'about'
@@ -271,7 +261,8 @@ let TheContactPage = {
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
       <contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>
-    </div> <!-- main -->`,
+    </div>
+  `,
   data: function() {
     return {
       page: 'contact',
@@ -281,7 +272,7 @@ let TheContactPage = {
   },
   methods: {
     submit: function() {  
-      var params = {
+      let params = {
         name: this.messages.name || '',
         email: this.messages.email || '',
         message: this.messages.message || ''
@@ -291,7 +282,6 @@ let TheContactPage = {
           .post('/api/v1/messages/', params)
           .then(function(response) {
             alert('Your message was sent');
-            window.scrollTo(0, 0);
             location.reload(true);
           });
       } else {
@@ -301,26 +291,60 @@ let TheContactPage = {
   }
 };
 
-let TheArticlesPage = {
+let TheArticlesIndexPage = {
   template:`
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
-      <last-blog-post></last-blog-post>
-    </div> <!-- main -->`,
+      <client-articles-index v-bind:posts="posts" v-bind:errors="errors"></client-articles-index>
+    </div>
+  `,
   data: function() {
     return {
-      page: 'articles'
+      page: 'articles',
+      posts: [],
+      errors: []
     }; 
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts')
+      .then(function(response) {
+        this.posts = response.data.posts;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
   }
 };
-      // '<div class="content-wrapper">' +
-      //   '<about-section></about-section>' +
-      //   '<contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>' +
-      //   '<last-blog-post></last-blog-post>' +
-      //   '<footer-section></footer-section>' +
-      // '</div> <!-- content-wrapper -->' +
 
-var LoginPage = {
+let TheArticlesShowPage = {
+  template:`
+    <div id="vue-home-main">
+      <client-navbar v-bind:page='page'></client-navbar>
+      <client-articles-show v-bind:post="post" v-bind:errors="errors"></client-articles-show>
+    </div>
+  `,
+  data: function() {
+    return {
+      page: 'articles',
+      post: {},
+      errors: [],
+      articleId: this.$route.params.id
+    }; 
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts/' + this.articleId)
+      .then(function(response) {
+        this.post = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  }
+};
+
+let LoginPage = {
   template:
     '<div id="vue-login-main">' +  
       '<div id="login">' +
@@ -340,7 +364,7 @@ var LoginPage = {
           '<input id="password" type="password" class="form-control" v-model="password">' +
         '</div>' +
         '<div class="login-box">' +
-          '<input id="login-btn" class="btn" type="submit" @click="submit()" name="Submit">' +
+          '<input id="login-btn" class="btn form-btn" type="submit" @click="submit()" name="Submit">' +
         '</div>' +
       '</div>' +
     '</div>',
@@ -353,7 +377,7 @@ var LoginPage = {
   },
   methods: {
     submit: function() {
-      var params = {
+      let params = {
         email: this.email, 
         password: this.password
       };
@@ -401,7 +425,7 @@ var LoginPage = {
   }
 };
 
-var DashboardPage = {
+let DashboardPage = {
   template: 
     '<div id="vue-admin-main">' +
       '<admin-navbar></admin-navbar>' +
@@ -412,7 +436,7 @@ var DashboardPage = {
     '</div>',
 };
 
-var AdminPostIndexPage = {
+let AdminPostIndexPage = {
   template: 
     `<div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -438,7 +462,6 @@ var AdminPostIndexPage = {
   data: function() {
     return {
       posts: [],
-
       errors: []
     };
   },
@@ -454,7 +477,7 @@ var AdminPostIndexPage = {
   }
 };
 
-var AdminMessagesIndexPage = {
+let AdminMessagesIndexPage = {
   template: 
     `<div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -496,7 +519,7 @@ var AdminMessagesIndexPage = {
   }
 };
 
-var AdminPostNewPage = {
+let AdminPostNewPage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -525,7 +548,7 @@ var AdminPostNewPage = {
   },
   methods: {
     submit: function() {
-      var params = {
+      let params = {
         title: this.post.title || '',
         content: this.post.content || ''
       };
@@ -544,7 +567,7 @@ var AdminPostNewPage = {
   }
 };
 
-var AdminPostShowPage = {
+let AdminPostShowPage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -588,7 +611,7 @@ var AdminPostShowPage = {
   },
 };
 
-var AdminMessageShowPage = {
+let AdminMessageShowPage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -646,7 +669,7 @@ var AdminMessageShowPage = {
   }
 };
 
-var AdminPostEditPage = {
+let AdminPostEditPage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -685,11 +708,11 @@ var AdminPostEditPage = {
   },
   methods: {
     submit: function() {
-      var params = {
+      let params = {
         title: this.post.title,
         content: this.post.content
       };
-      var route = "/dashboard/posts/" + this.postId;
+      let route = "/dashboard/posts/" + this.postId;
       axios
         .patch("/api/v1/posts/" + this.postId, params)
         .then(function(response) {
@@ -704,7 +727,7 @@ var AdminPostEditPage = {
   }
 };
 
-var AdminPostDeletePage = {
+let AdminPostDeletePage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -761,12 +784,13 @@ var AdminPostDeletePage = {
   }
 };
 
-var router = new VueRouter({
+let router = new VueRouter({
   routes: [ 
     { path: "/", component: TheHomePage },
     { path: "/about", component: TheAboutPage },
     { path: "/contact", component: TheContactPage },
-    { path: "/articles", component: TheArticlesPage },
+    { path: "/articles", component: TheArticlesIndexPage },
+    { path: "/articles/:id", component: TheArticlesShowPage },
     { path: "/login", component: LoginPage },
     { path: "/dashboard", component: DashboardPage },
     { path: "/dashboard/posts", component: AdminPostIndexPage },
@@ -783,11 +807,11 @@ var router = new VueRouter({
   }
 });
 
-var app = new Vue({
+let app = new Vue({
   el: "#vue-app",
   router: router,
   created: function() {
-    var jwt = localStorage.getItem("jwt");
+    let jwt = localStorage.getItem("jwt");
     console.log('jwt');
     console.log(jwt);
     if (jwt) {

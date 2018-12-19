@@ -48,6 +48,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-size: 16px;
+  min-width: 400px;
 }
 
 .content-wrapper {
@@ -74,6 +75,18 @@ Buttons
   background-color: #edbc64;
   border: solid 1px #edbc64;
   box-shadow: 0 0 2px #edbc64;  
+}
+
+.form-btn {
+  background-color: #edbc64;
+  border: solid 1px #edbc64;
+  box-shadow: 0 0 2px #edbc64;
+}
+
+.back-btn {
+  background-color: cornflowerblue;
+  border: solid 1px cornflowerblue;
+  box-shadow: 0 0 2px cornflowerblue;
 }
 
 .btn:focus {
@@ -426,10 +439,6 @@ input:focus, textarea:focus {
   box-shadow: 0 0 5px #edbc64;
 }
 
-/*@media only screen and (max-width: 767px) {
-
-}*/
-
 /***********************************
 
 Posts
@@ -439,48 +448,34 @@ Posts
 #posts {
 }
 
-.main-page-post {
-  width: 100%;
+.post-wrapper {
+  background-color: #fefefe;
+  margin-bottom: 10px;
+  box-shadow: 0 0 2px #121212;
 }
 
-.main-page-post h3 {
-  border-bottom: solid 1px #121212;
+.post-wrapper:hover {
+  box-shadow: 0 0 10px #121212;
 }
 
-#vpb-div {
-  width: 100%;
-  margin: 30px 0;
+.post-wrapper a {
+  text-decoration: none;
+  color: #121212;
 }
 
-#view-posts-btn {
-  width: 300px;
-  height: 60px;
+.post-wrapper h2 {
+  padding: 20px 20px 10px 20px;
+} 
+
+.post-wrapper p {
+  padding: 10px 20px 20px 20px;
 }
 
 @media only screen and (max-width: 767px) {
 }
+
 
 /***********************************
-
-Footer
-
-************************************/
-
-#footer {
-  height: 150px;
-  margin: 62px -20px 0 -20px;
-  padding: 60px 20px;
-  background-color: cornflowerblue;
-  color: white;
-}
-
-@media only screen and (max-width: 767px) {
-  #footer {
-    margin-top: 215px;
-  }
-}
-
- /***********************************
 
 Alerts
 
@@ -551,7 +546,7 @@ Log In Page
 
  /***********************************
 
-Log In Page
+ Admin Page
 
 ************************************/
 
@@ -560,11 +555,6 @@ Log In Page
   margin-left: 175px;
   background-color: #efefef;
   padding: 20px;
-}
-
-.post-wrapper {
-  border: solid 1px red;
-  padding: 10px;
 }
 
 @media only screen and (max-width: 767px) {
