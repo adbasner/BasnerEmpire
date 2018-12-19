@@ -176,7 +176,7 @@ Vue.component('client-articles-show', {
         </div>
       </div>
          
-      <button class="btn back-btn"><router-link to="/articles">Back to all articles</router-link></button>
+      <router-link to="/articles"><div class="btn back-btn">Back to all articles</div></router-link>
 
       <div class="post-wrapper inner-post-wrapper"> 
         <h2> {{ post.title }} </h2> 
