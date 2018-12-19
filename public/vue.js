@@ -4,27 +4,32 @@
 //
 // *****************************
 
-Vue.component('home-navbar', {
-  template:
-    `<nav id="home-navbar">
-      <a class="nav-link nav-active">basner media</a>
-      <a class="nav-link">about</a>
-      <a class="nav-link">contact</a>
-      <a class="nav-link">recent articles</a>
-      <router-link to="" class="nav-link nav-no-right-border">all articles</router-link>
+Vue.component('client-navbar', {
+  props: ['page'],
+  template:`
+    <nav id="client-navbar">
+      <router-link to="/" class="nav-link" v-bind:class="[page==
+      'home' ? 'nav-active':'']">basner media</router-link>
+      <router-link to="/about" class="nav-link" v-bind:class="[page==
+      'about' ? 'nav-active':'']">about</router-link>
+      <router-link to="/contact" class="nav-link" v-bind:class="[page==
+      'contact' ? 'nav-active':'']">contact</router-link>
+      <router-link to="/articles" class="nav-link nav-no-right-border" v-bind:class="[page==
+      'articles' ? 'nav-active':'']">articles</router-link>
       <a class="nav-link nav-no-right-border" id="toggle-icon" @click="toggleNav">&#9776;</a>
-    </nav>`,
+    </nav>
+    `,
   methods: {
-    // goto: function(anchor) {
-    //   let el = document.getElementById(anchor);
-    //   window.scrollTo({left: 0, top: el.offsetTop, behavior: 'smooth' });
-    // },
-
     toggleNav: function() {
       const navItems = document.querySelectorAll(".nav-link");
       navItems.forEach(navItem => 
         navItem.classList.toggle('responsive')
       );
+    }
+  },
+  computed: {
+    isActive: function() {
+
     }
   }
 });
@@ -73,7 +78,7 @@ Vue.component('header-img', {
 
 Vue.component('about-section', {
   template: 
-    '<div id="about"  class="anchor">' +
+    '<div id="about"  class="content-wrapper">' +
       '<h1 class="center">{{ headerMsg }}</h1>' +
       '<p>{{ message }}</p>' +
       '<p>{{ message }}</p>' +
@@ -93,7 +98,7 @@ Vue.component('about-section', {
 Vue.component('contact-me', {
   props: ['message'],
   template:`
-    <div id="contact" class="anchor">
+    <div id="contact" class="content-wrapper">
       <div id="contact-wrapper">
         <h2 class="center">Contact Me</h2>
         <form method="post" @submit.prevent>
@@ -129,7 +134,7 @@ Vue.component('contact-me', {
 
 Vue.component('last-blog-post', {
   template:
-    '<div id="posts" class="anchor">' +
+    '<div id="posts" class="content-wrapper">' +
       '<div class="main-page-post">' +
         '<h3>{{ lastpost.title }}</h3>' + 
         '<div class="post-content" v-html="lastpost.content">' + 
@@ -199,16 +204,15 @@ Vue.component('post-form', {
 //
 // *****************************
 
-var HomePage = {
-  template:
-    '<div id="vue-home-main">' + 
-      '<home-navbar></home-navbar>' +
-      '<header-img></header-img>' +
-    '</div> <!-- main -->',
+let TheHomePage = {
+  template:`
+    <div id="vue-home-main">
+      <client-navbar v-bind:page='page'></client-navbar>
+      <header-img></header-img>
+    </div> <!-- main -->`,
   data: function() {
     return {
-      messages: {},
-      emailrrors: [],
+      page: 'home'
     }; 
   },
   methods: {
@@ -234,6 +238,66 @@ var HomePage = {
   }
 };
 
+let TheAboutPage = {
+  template:`
+    <div id="vue-home-main">
+      <client-navbar v-bind:page='page'></client-navbar>
+      <about-section></about-section>
+    </div> <!-- main -->`,
+  data: function() {
+    return {
+      page: 'about'
+    }; 
+  }
+};
+
+let TheContactPage = {
+  template:`
+    <div id="vue-home-main">
+      <client-navbar v-bind:page='page'></client-navbar>
+      <contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>
+    </div> <!-- main -->`,
+  data: function() {
+    return {
+      page: 'contact',
+      messages: {},
+      emailrrors: [],
+    }; 
+  },
+  methods: {
+    submit: function() {  
+      var params = {
+        name: this.messages.name || '',
+        email: this.messages.email || '',
+        message: this.messages.message || ''
+      };
+      if (params.name !== '' && params.email !== '' && params.message !== '') {
+        axios
+          .post('/api/v1/messages/', params)
+          .then(function(response) {
+            alert('Your message was sent');
+            window.scrollTo(0, 0);
+            location.reload(true);
+          });
+      } else {
+        alert('You must fill in a name, email and message if you want to sent a message!');
+      }
+    }
+  }
+};
+
+let TheArticlesPage = {
+  template:`
+    <div id="vue-home-main">
+      <client-navbar v-bind:page='page'></client-navbar>
+      <last-blog-post></last-blog-post>
+    </div> <!-- main -->`,
+  data: function() {
+    return {
+      page: 'articles'
+    }; 
+  }
+};
       // '<div class="content-wrapper">' +
       //   '<about-section></about-section>' +
       //   '<contact-me v-bind:message="messages" v-on:submit="submit"></contact-me>' +
@@ -684,7 +748,10 @@ var AdminPostDeletePage = {
 
 var router = new VueRouter({
   routes: [ 
-    { path: "/", component: HomePage },    
+    { path: "/", component: TheHomePage },
+    { path: "/about", component: TheAboutPage },
+    { path: "/contact", component: TheContactPage },
+    { path: "/articles", component: TheArticlesPage },
     { path: "/login", component: LoginPage },
     { path: "/dashboard", component: DashboardPage },
     { path: "/dashboard/posts", component: AdminPostIndexPage },
