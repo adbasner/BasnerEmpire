@@ -83,12 +83,6 @@ Buttons
   box-shadow: 0 0 2px #edbc64;
 }
 
-.back-btn {
-  background-color: cornflowerblue;
-  border: solid 1px cornflowerblue;
-  box-shadow: 0 0 2px cornflowerblue;
-}
-
 .btn:focus {
   box-shadow: 0 0 15px #edbc64;
   outline: none;
@@ -458,18 +452,39 @@ Posts
   box-shadow: 0 0 10px #121212;
 }
 
+.inner-post-wrapper {
+  padding: 20px;
+}
+
 .post-wrapper a {
   text-decoration: none;
   color: #121212;
 }
 
-.post-wrapper h2 {
-  padding: 20px 20px 10px 20px;
-} 
-
-.post-wrapper p {
-  padding: 10px 20px 20px 20px;
+.back-btn {
+  background-color: cornflowerblue;
+  border: solid 1px cornflowerblue;
+  box-shadow: 0 0 2px cornflowerblue;
+  margin-bottom: 20px;
+  padding: 10px 0px;
+  width: 100%;
 }
+
+.back-btn:focus {
+  box-shadow: 0 0 15px cornflowerblue;
+  outline: none;
+}
+
+.back-btn a {
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+}
+.post-wrapper h2 {
+  margin-bottom: 10px;
+  text-decoration: underline;
+  text-decoration-color: #121212;
+} 
 
 @media only screen and (max-width: 767px) {
 }

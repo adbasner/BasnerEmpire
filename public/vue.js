@@ -155,8 +155,10 @@ Vue.component('client-articles-index', {
          
       <div class="post-wrapper" v-for="post in posts"> 
         <a v-bind:href="'/#/articles/' + post.id">
-          <h2>{{ post.title }}</h2> 
-          <p>Created on: {{ post.created_at }}</p>
+          <div class="inner-post-wrapper">
+            <h2>{{ post.title }}</h2> 
+            <p>Created on: {{ post.created_at }}</p>
+          </div>
         </a>
       </div>
     </div>
@@ -174,7 +176,9 @@ Vue.component('client-articles-show', {
         </div>
       </div>
          
-      <div class="post-wrapper"> 
+      <button class="btn back-btn"><router-link to="/articles">Back to all articles</router-link></button>
+
+      <div class="post-wrapper inner-post-wrapper"> 
         <h2> {{ post.title }} </h2> 
         <h3>{{ post.created_at }}</h3>
         <div v-html="post.content">{{ post.content }}</div>
@@ -219,7 +223,7 @@ Vue.component('post-form', {
       
 Vue.component('alert-box', {
   template:`
-  
+
   `
 }); 
 // *****************************
