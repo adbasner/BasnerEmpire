@@ -18,7 +18,7 @@ Vue.component('client-navbar', {
       'articles' ? 'nav-active':'']">articles</router-link>
       <a class="nav-link nav-no-right-border" id="toggle-icon" @click="toggleNav">&#9776;</a>
     </nav>
-    `,
+  `,
   methods: {
     toggleNav: function() {
       const navItems = document.querySelectorAll(".nav-link");
@@ -26,22 +26,18 @@ Vue.component('client-navbar', {
         navItem.classList.toggle('responsive')
       );
     }
-  },
-  computed: {
-    isActive: function() {
-
-    }
   }
 });
 
 Vue.component('admin-navbar', {
-  template:
-    `<nav id="admin-navbar">
+  template:`
+    <nav id="admin-navbar">
       <router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>
       <router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>
       <router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>
       <a class="nav-link" @click="logout">LOG OUT</a>
-    </nav>`,
+    </nav>
+  `,
   created: function() {
     if (!localStorage.getItem('jwt')) {
       router.push('login');
@@ -69,27 +65,35 @@ Vue.component('admin-sidebar', {
 });
 
 Vue.component('header-img', {
-  template: 
-  '<div id="header">' +
-      '<h1 id="header-text" class="center">Welcome to Basner Media</h1>' +
-      '<h2 id="header-subtext" class="center">Info and insight on web development</h2>' +
-  '</div>'
+  template:`
+    <div id="header">
+      <h1 id="header-text" class="center">{{ headerText }}</h1>
+      <h2 id="header-subtext" class="center">{{ headerSubText }}</h2>
+    </div>
+  `,
+  data: function() {
+    return {
+      headerText: "Welcome to Basner Media",
+      headerSubText: "Info and insight on web development"
+    };
+  }
 });
 
 Vue.component('about-section', {
-  template: 
-    '<div id="about"  class="content-wrapper">' +
-      '<h1 class="center">{{ headerMsg }}</h1>' +
-      '<p>{{ message }}</p>' +
-      '<p>{{ message }}</p>' +
-      '<p>{{ message }}</p>' +
-      '<p>{{ message }}</p>' +
-      '<p>{{ message }}</p>' +
-      '<p>{{ message }}</p>' +
-    '</div>',
+  template:`
+    <div id="about"  class="content-wrapper">
+      <h2 class="center">{{ headerMsg }}</h2>
+      <p>{{ message }}</p>
+      <p>{{ message }}</p>
+      <p>{{ message }}</p>
+      <p>{{ message }}</p>
+      <p>{{ message }}</p>
+      <p>{{ message }}</p>
+    </div>
+  `,
   data: function() {
     return {
-      headerMsg: "Welcome to Basner Media Empire",
+      headerMsg: "Welcome to Basner media",
       message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     };
   },
@@ -99,32 +103,43 @@ Vue.component('contact-me', {
   props: ['message'],
   template:`
     <div id="contact" class="content-wrapper">
-      <div id="contact-wrapper">
-        <h2 class="center">Contact Me</h2>
-        <form method="post" @submit.prevent>
-
-          <div class="inputbox">
-            <label for="name">Name: </label>
-            <input id="name" type="text" name="name" v-model="message.name" required>
-          </div>
-
-          <div class="inputbox">
-            <label for="email">Email: </label>
-            <input id="email" type="email" name="email" v-model="message.email" required>
-          </div>
-
-          <div class="inputbox">
-           <label for="message">Message: </label>
-            <textarea rows="10" id="message" type="textarea" name="message" v-model="message.message" required></textarea>
-          </div>
-         
-          <div class="inputbox">
-            <input class="btn" type="submit" name="submit" v-on:click="$emit('submit')">
-          </div>
-
-        </form>
+      <h2 class="center">Contact Me</h2>
+      <p class="center">Fill out the form below or find me on social media</p>
+      <div class="center socials">
+        <a href="https://github.com/adbasner" title="GitHub" target="_blank" ><i class="fab fa-github-square"></i></a>
+        <a href="https://www.facebook.com/adbasner" title="Facebook" target="_blank" ><i class="fab fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/in/adbasner/" title="LinkedIn" target="_blank" ><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com/AndrewBasner" title="Twitter" target="_blank" ><i class="fab fa-twitter-square"></i></a>
+        <a href="https://medium.com/@andrewbasner" title="Medium Blog" target="_blank" ><i class="fab fa-medium"></i></a>
+        <a href="https://www.freecodecamp.org/adbasner" title="Free Code Camp" target="_blank" ><i class="fab fa-free-code-camp"></i></a>
+        <a href="https://www.instagram.com/andrewbasner/" title="Instagram" target="_blank" ><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/channel/UCh-x5PjpgcLiud7kebyZbXg/" title="Youtube" target="_blank" ><i class="fab fa-youtube"></i></a>
       </div>
-    </div>`,
+
+      <form method="post" @submit.prevent>
+
+        <div class="inputbox">
+          <label for="name">Name: </label>
+          <input id="name" type="text" name="name" v-model="message.name" required>
+        </div>
+
+        <div class="inputbox">
+          <label for="email">Email: </label>
+          <input id="email" type="email" name="email" v-model="message.email" required>
+        </div>
+
+        <div class="inputbox">
+         <label for="message">Message: </label>
+          <textarea rows="10" id="message" type="textarea" name="message" v-model="message.message" required></textarea>
+        </div>
+       
+        <div class="inputbox">
+          <input class="btn" type="submit" name="submit" v-on:click="$emit('submit')">
+        </div>
+
+      </form>
+    </div>
+  `,
   data: function() {
     return {
       messages: {}

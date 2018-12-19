@@ -64,13 +64,11 @@ Buttons
 
 ************************************/
 
-
 .btn {
   padding: 8px;
   font-size: 1rem;
   font-weight: bold;
   border-radius: 5px;
-  box-sizing: border-box;
   text-transform: uppercase;
   color: #fff;
   background-color: #edbc64;
@@ -106,7 +104,7 @@ nav {
   text-decoration: none;
   padding: 20px 0 10px 0;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: bold;
   border-right: 1pt solid #efefef;
   display: inline-block;
   width: 100%;
@@ -118,6 +116,7 @@ nav {
 .nav-no-right-border {
   border-right: none;
 }
+
 .nav-active {
   text-decoration: underline;
   text-decoration-color: cornflowerblue;
@@ -177,10 +176,9 @@ nav {
   }
 }
 
-
 /***********************************
 
-Client Side Nav Bar
+Admin Nav Bar
 
 ***********************************
 
@@ -211,7 +209,7 @@ div#admin-sidebar {
   color: #efefef;
   padding: 20px 0 20px 0;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: bold;
   box-sizing: border-box;
   width: 100%;
   border-bottom: solid 1px #efefef;
@@ -222,13 +220,9 @@ div#admin-sidebar {
   text-transform: uppercase;
 }
 
-
-
 .side-link:hover {
   border-right: solid 10px #edbc64;
 }
-
-
 
 /*@media only screen and (max-width: 767px) {
   nav {
@@ -261,30 +255,6 @@ div#admin-sidebar {
     border-right: none;
     border-bottom: solid 10px #edbc64;
   }
-
-}*/
-
-/***********************************
-
-Anchor refs
-
-************************************/
-
-/*.anchor {
-  padding-top: 59px;
-  margin-bottom: -59px;
-}
-
-
-.anchor-last {
-  padding-top: 59px;
-}
-
-@media only screen and (max-width: 767px) {
-  .anchor {
-    padding-top: 0px;
-    margin-bottom: 0px;
-  }
 }*/
 
 /***********************************
@@ -292,12 +262,11 @@ Anchor refs
 Header
 
 ************************************/
+
 #header {
   background-image: url('/images/comp1.jpg');
   background-color: #121212;
-  background-attachment: fixed;
   background-position: center;
-  background-repeat: no-repeat;
   background-size: cover;
   height: calc(100vh - 56px);
   display: flex;
@@ -309,11 +278,16 @@ Header
 #header-text {
   color: #fff;
   font-size: 3.0rem;
+  padding: 20px;
+  line-height: 1.2;
+  font-weight: bold;
 }
 
 #header-subtext {
   color: #fff;
   font-size: 2.5rem;
+  padding: 20px;
+  line-height: 1.2;
 }
 
 
@@ -323,6 +297,11 @@ Header
   }
 
   #header-text {
+    font-size: 2.5rem;
+  }
+
+  #header-subtext {
+    font-size: 2rem;
   }
 }
 
@@ -334,31 +313,102 @@ About
 #about {
 }
 
+#about h2 {
+  padding: 20px
+}
+
+#about p {
+  line-height: 1.2;
+  padding: 10px;
+}
+
  /***********************************
 
 Contact
 
 ************************************/
+
 #contact {
-  
 }
 
-#contact-wrapper {
+#contact h2 {
+  padding: 20px;
 }
+
+#contact p {
+  line-height: 1.2;
+  padding: 10px;
+}
+
+.socials {
+
+}
+
+#contact .fab {
+  font-size: 48px;
+}
+
+@media screen and (max-width: 768px) {
+  #contact .fab {
+    font-size: 40px;
+  }
+}
+
+.fa-facebook {
+  color: #4867AD;
+}
+
+.fa-twitter-square {
+  color: #48A0EC;
+}
+
+.fa-instagram {
+  color: #B93D80;
+}
+.fa-linkedin {
+  color: #3D91BA;
+}
+
+.fa-medium {
+  color: #68DE7D;
+}
+
+.fa-github-square {
+  color: #000;
+}
+
+.fa-free-code-camp {
+  color: #2A6118;
+}
+
+.fa-youtube {
+  color: #EB3324;
+}
+
+#contact form {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+ /***********************************
+
+Form
+
+************************************/
 
 form {
   text-align: center;
   margin-right: auto;
   margin-left: auto;
+  max-width: 500px;
 }
 
 .inputbox {
   margin-bottom: 20px;
-  text-align: center;
 }
 
 label {
-  display: block;
+  /*display: block;*/
   font-size: 1.2rem;
 }
 
@@ -366,10 +416,8 @@ input, textarea {
   padding: 8px;
   font-size: 1rem;
   border-radius: 5px;
-  box-sizing: border-box;
-  border: none;
   border: solid 1px cornflowerblue;
-  width: 80%;
+  width: 100%;
 }
 
 input:focus, textarea:focus {
@@ -378,11 +426,16 @@ input:focus, textarea:focus {
   box-shadow: 0 0 5px #edbc64;
 }
 
+/*@media only screen and (max-width: 767px) {
+
+}*/
+
 /***********************************
 
 Posts
 
 ************************************/
+
 #posts {
 }
 
