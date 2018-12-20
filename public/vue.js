@@ -799,9 +799,11 @@ let UserShowPage = {
       <admin-sidebar></admin-sidebar> 
       <alert-box v-bind:errors="errors"></alert-box>
       <div class="admin-wrapper"> 
-        <h2>Name: {{ message.name }}</h2>
-        <p>Email: {{ message.email }}</p>
-        <a v-bind:href="'/#/dashboard/users/edit'"><div class="btn edit-btn">Edit</div></a>
+        <div class="admin-form-wrapper"> 
+          <h2>Name: {{ message.name }}</h2>
+          <p>Email: {{ message.email }}</p>
+          <a v-bind:href="'/#/dashboard/users/edit'"><div class="btn edit-btn">Edit</div></a>
+        </div>
       </div>
     </div>
   `,
@@ -834,51 +836,50 @@ let UserEditPage = {
       <admin-sidebar></admin-sidebar> 
       <alert-box v-bind:errors="errors"></alert-box>
       <div class="admin-wrapper"> 
-        <a v-bind:href="'/#/dashboard/users/'"><div class="btn back-btn">Back</div></a>
 
         <div class="admin-form-wrapper">
+          <a v-bind:href="'/#/dashboard/users/'"><div class="btn back-btn">Back</div></a>
           
           <form method="post" class="admin-article-form" @submit.prevent>
             <div class="inputbox">
               <label for="name">Name: </label>
-              <input id="name" type="text" name="name">
+              <input id="name" type="text" name="name" v-model="user.name">
             </div>
             <div class="inputbox">
-             <label for="email">Email: </label>
-              <input id="email" type="textarea" name="email" ></input>
+              <label for="email">Email: </label>
+              <input id="email" type="textarea" name="email" v-model="user.email"></input>
             </div>
             <div class="inputbox">
-             <label for="password">Password: </label>
-              <input id="password" type="password" name="password"></input>
+              <label for="password">Password: </label>
+              <input id="password" type="password" name="password" v-model="user.password"></input>
             </div>
             <div class="inputbox">
-             <label for="password_confirmation">Confirm Password: </label>
-              <input id="password_confirmation" type="password" name="password_confirmation"></input>
+              <label for="password_confirmation">Confirm Password: </label>
+              <input id="password_confirmation" type="password" name="passwordConfirmation" v-model="user.passwordConfirmation"></input>
             </div>
             <div class="inputbox">
               <input class="btn edit-btn" type="submit" name="submit" v-on:click=submit() >
             </div>
           </form>
         </div>
-
-        <h2>Name: {{ message.name }}</h2>
-        <p>Email: {{ message.email }}</p>
       </div>
     </div>
   `,
   data: function() {
     return {
-      message: {},
+      user: {},
       errors: [],
-      messageId: this.$route.params.id
+      userId: "",
+      postId: this.$route.params.id,
     };
   },
   created: function() {
-    let userId = localStorage.getItem("userId");
+    this.userId = localStorage.getItem("userId");
+    console.log(this.userId);
     axios
       .get('/users/' + userId)
       .then(function(response) {
-        this.message = response.data;
+        this.user = response.data;
       }.bind(this))
       .catch(function(error) {
         this.errors = error.response.data.errors;
@@ -886,7 +887,23 @@ let UserEditPage = {
   },
   methods: {
     submit: function() {
-
+      let params = {
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password,
+        password_confirmation: this.user.passwordConfirmation,
+      };
+      let route = "/dashboard/users";
+      axios
+        .patch('/users/' + this.userId, params)
+        .then(function(response) {
+          router.push(route);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
     }
   }
 };
