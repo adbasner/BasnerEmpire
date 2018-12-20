@@ -223,8 +223,7 @@ Admin Nav Bar and main page
 .admin-wrapper {
   margin-left: 175px;
   background-color: #efefef;
-  display: inline-block;
-  padding: 20px;
+  display: block;
 }
 
 @media only screen and (max-width: 767px) {
@@ -245,7 +244,6 @@ Admin Nav Bar and main page
 
   .admin-wrapper {
     margin: 20px;
-    padding: 0;
   }
 }
 
@@ -571,5 +569,51 @@ Log In Page
 /***********************************
 
 Dashboard Posts
+
+************************************/
+
+.admin-welcome-message {
+  width: 50%;
+  margin: 50px auto 0 auto;
+}
+
+.admin-welcome-message h2 {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.edit-btn {
+  background-color: #64edbc;
+  border: solid 1px #64edbc;
+  box-shadow: 0 0 2px #64edbc;
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.edit-btn:focus {
+  box-shadow: 0 0 15px #64edbc;
+  outline: none;
+}
+
+.delete-btn {
+  background-color: #ed6495;
+  border: solid 1px #ed6495;
+  box-shadow: 0 0 2px #ed6495;
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.delete-btn:focus {
+  box-shadow: 0 0 15px #ed6495;
+  outline: none;
+}
+
+/***********************************
+
+Dashboard Edit Posts
 
 ************************************/

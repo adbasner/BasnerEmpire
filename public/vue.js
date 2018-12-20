@@ -63,13 +63,11 @@ Vue.component('admin-navbar', {
 Vue.component('admin-sidebar', {
   template:`
     <div id="admin-sidebar">
-      <router-link to="/dashboard/posts" class="side-link">view posts</router-link>
-      <router-link to="/dashboard/posts/new" class="side-link">new post</router-link>
+      <router-link to="/dashboard/articles" class="side-link">view posts</router-link>
+      <router-link to="/dashboard/articles/new" class="side-link">new post</router-link>
       <router-link to="/dashboard/messages" class="side-link">messages</router-link>
     </div>
-  `,
-  methods: {
-  },
+  `
 });
 
 Vue.component('header-img', {
@@ -168,6 +166,22 @@ Vue.component('client-articles-index', {
   `
 });
 
+Vue.component('admin-articles-index', {
+  props: ['posts'],
+  template:`
+    <div id="admin-posts" class="content-wrapper">         
+      <div class="post-wrapper" v-for="post in posts"> 
+        <a v-bind:href="'/#/dashboard/articles/' + post.id">
+          <div class="inner-post-wrapper">
+            <h2>{{ post.title }}</h2> 
+            <p>Created on: {{ post.created_at }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  `
+});
+
 Vue.component('client-articles-show', {
   props: ['post'],
   template:`
@@ -183,11 +197,29 @@ Vue.component('client-articles-show', {
   `
 });
 
+Vue.component('admin-articles-show', {
+  props: ['post'],
+  template:`
+    <div id="posts" class="content-wrapper">
+      <router-link to="/dashboard/articles"><div class="btn back-btn">Back to all articles</div></router-link>
+
+      <div class="post-wrapper inner-post-wrapper"> 
+        <h2> {{ post.title }} </h2> 
+        <p>{{ post.created_at }}</p>
+        <div v-html="post.content" class="post-content">{{ post.content }}</div>
+      </div>
+
+      <a v-bind:href="'/#/dashboard/articles/' + post.id + '/edit'"><div class="btn edit-btn">Edit</div></a>
+      <a v-bind:href="'/#/dashboard/articles/' + post.id + '/delete'"><div class="btn delete-btn">Delete</div></a>
+    </div>
+  `
+});
+
 Vue.component('post-form', {
   props: ['post', 'formType'],
   template:`
-    <div class="post-form">
-      <div class="post-wrapper">
+    <div class="edit-form">
+      <div class="edit-post-wrapper">
         <form  method="post" @submit.prevent>
           <div class="inputbox">
             <label for="title">Title: </label>
@@ -436,7 +468,10 @@ let DashboardPage = {
       <admin-navbar></admin-navbar>
       <admin-sidebar></admin-sidebar>
       <div class="admin-wrapper">
-        <h2 class="center">Welcome Andrew, you are going to have an awesome day</h2>
+        <div class="admin-welcome-message">
+          <h2 class="center">Welcome Andrew</h2>
+          <h2 class="center">You are going to have an awesome day</h2>
+        </div>
       </div>
     </div>
   `
@@ -448,23 +483,11 @@ let AdminPostIndexPage = {
       <admin-navbar></admin-navbar>
       <admin-sidebar></admin-sidebar> 
       <div class="admin-wrapper"> 
-
-        <div class="alert-box">
-          <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          </div>
-        </div>
-         
-        <div class="post-wrapper" v-for="post in posts"> 
-          <p>{{ post.title }} | 
-             {{ post.content }} | 
-             {{ post.created_at }} | 
-             <a v-bind:href="'/#/dashboard/posts/' + post.id">View Post</a>                     
-          </p>
-        </div>
+        <alert-box v-bind:errors="errors"></alert-box>
+        <admin-articles-index v-bind:posts="posts"></admin-articles-index>
       </div>
-    </div>`,
+    </div>
+  `,
   data: function() {
     return {
       posts: [],
@@ -483,48 +506,84 @@ let AdminPostIndexPage = {
   }
 };
 
-let AdminMessagesIndexPage = {
-  template: 
-    `<div id="vue-admin-main">
+let AdminPostShowPage = {
+  template:`
+    <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
       <admin-sidebar></admin-sidebar> 
       <div class="admin-wrapper"> 
-
-        <div class="alert-box">
-          <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          </div>
-        </div>
-         
-        <div class="post-wrapper" v-for="message in messages"> 
-          <p>{{ message.name }} | 
-             {{ message.email }} | 
-             {{ message.message }} | 
-             {{ message.created_at }} | 
-             <a v-bind:href="'/#/dashboard/messages/' + message.id">View Message</a>                     
-          </p>
-        </div>
+        <alert-box v-bind:errors="errors"></alert-box>
+        <admin-articles-show v-bind:post="post"></admin-articles-show>
       </div>
-    </div>`,
+    </div>
+  `,
   data: function() {
     return {
-      messages: [],
-      errors: []
+      post: {},
+      errors: [],
+      postId: this.$route.params.id
     };
   },
   created: function() {
     axios
-      .get('/api/v1/messages')
+      .get('/api/v1/posts/' + this.postId)
       .then(function(response) {
-        this.messages = response.data.messages;
+        this.post = response.data;
       }.bind(this))
       .catch(function(error) {
         this.errors = ['There seems to be a problem with the server right now.  Try again later'];
       }.bind(this));
-  }
+  },
 };
 
+let AdminPostEditPage = {
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+        <alert-box v-bind:errors="errors"></alert-box>
+        <post-form v-bind:post='post' v-bind:formType='formType' v-on:submit="submit" ></post-form>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      post: {},
+      errors: [],
+      postId: this.$route.params.id,
+      formType: 'Edit'
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/posts/' + this.postId)
+      .then(function(response) {
+        this.post = response.data;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  },
+  methods: {
+    submit: function() {
+      let params = {
+        title: this.post.title,
+        content: this.post.content
+      };
+      let route = "/dashboard/posts/" + this.postId;
+      axios
+        .patch("/api/v1/posts/" + this.postId, params)
+        .then(function(response) {
+          router.push(route);
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
 let AdminPostNewPage = {
   template:`
     <div id="vue-admin-main">
@@ -532,12 +591,7 @@ let AdminPostNewPage = {
       <admin-sidebar></admin-sidebar> 
       <div class="admin-wrapper"> 
 
-        <div class="alert-box">
-          <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          </div>
-        </div>
+        <alert-box v-bind:errors="errors"></alert-box>
 
         <post-form v-bind:post='post' v-bind:formType='formType' v-on:submit="submit" ></post-form>
 
@@ -573,7 +627,9 @@ let AdminPostNewPage = {
   }
 };
 
-let AdminPostShowPage = {
+
+
+let AdminPostDeletePage = {
   template:`
     <div id="vue-admin-main">
       <admin-navbar></admin-navbar>
@@ -589,11 +645,10 @@ let AdminPostShowPage = {
          
         <div class="post-wrapper"> 
           <p>{{ post.title }} | 
-             <span  v-html="post.content">{{ post.content }}</span> | 
+             {{ post.content }} | 
              {{ post.created_at }} | 
-             <a v-bind:href="'/#/dashboard/posts/' + post.id + '/edit'">Edit Post</a> |                      
-             <a v-bind:href="'/#/dashboard/posts/' + post.id + '/delete'">Delete Post</a> |                      
-             <a v-bind:href="'/#/dashboard/posts/'">View all posts</a> |
+             <button class='btn' @click="submit()">Delete this Post?</button>
+             <button class='btn'>No</button>
           </p>
         </div>
       </div>
@@ -615,6 +670,56 @@ let AdminPostShowPage = {
         this.errors = ['There seems to be a problem with the server right now.  Try again later'];
       }.bind(this));
   },
+  methods: {
+    submit: function() {
+      axios
+        .delete("/api/v1/posts/" + this.postId)
+        .then(function(response) {
+          router.push("/dashboard/posts");
+        }.bind(this))
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+let AdminMessagesIndexPage = {
+  template: 
+    `<div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar> 
+      <div class="admin-wrapper"> 
+        <alert-box v-bind:errors="errors"></alert-box>
+        
+        <div class="post-wrapper" v-for="message in messages"> 
+          <p>{{ message.name }} | 
+             {{ message.email }} | 
+             {{ message.message }} | 
+             {{ message.created_at }} | 
+             <a v-bind:href="'/#/dashboard/messages/' + message.id">View Message</a>                     
+          </p>
+        </div>
+      </div>
+    </div>`,
+  data: function() {
+    return {
+      messages: [],
+      errors: []
+    };
+  },
+  created: function() {
+    axios
+      .get('/api/v1/messages')
+      .then(function(response) {
+        this.messages = response.data.messages;
+      }.bind(this))
+      .catch(function(error) {
+        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
+      }.bind(this));
+  }
 };
 
 let AdminMessageShowPage = {
@@ -675,121 +780,6 @@ let AdminMessageShowPage = {
   }
 };
 
-let AdminPostEditPage = {
-  template:`
-    <div id="vue-admin-main">
-      <admin-navbar></admin-navbar>
-      <admin-sidebar></admin-sidebar> 
-      <div class="admin-wrapper"> 
-
-        <div class="alert-box">
-          <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          </div>
-        </div>
-
-        <post-form v-bind:post='post' v-bind:formType='formType' v-on:submit="submit" ></post-form>
-
-
-      </div>
-    </div>`,
-  data: function() {
-    return {
-      post: {},
-      errors: [],
-      postId: this.$route.params.id,
-      formType: 'Edit'
-    };
-  },
-  created: function() {
-    axios
-      .get('/api/v1/posts/' + this.postId)
-      .then(function(response) {
-        this.post = response.data;
-      }.bind(this))
-      .catch(function(error) {
-        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
-      }.bind(this));
-  },
-  methods: {
-    submit: function() {
-      let params = {
-        title: this.post.title,
-        content: this.post.content
-      };
-      let route = "/dashboard/posts/" + this.postId;
-      axios
-        .patch("/api/v1/posts/" + this.postId, params)
-        .then(function(response) {
-          router.push(route);
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    }
-  }
-};
-
-let AdminPostDeletePage = {
-  template:`
-    <div id="vue-admin-main">
-      <admin-navbar></admin-navbar>
-      <admin-sidebar></admin-sidebar> 
-      <div class="admin-wrapper"> 
-
-        <div class="alert-box">
-          <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          </div>
-        </div>
-         
-        <div class="post-wrapper"> 
-          <p>{{ post.title }} | 
-             {{ post.content }} | 
-             {{ post.created_at }} | 
-             <button class='btn' @click="submit()">Delete this Post?</button>
-             <button class='btn'>No</button>
-          </p>
-        </div>
-      </div>
-    </div>`,
-  data: function() {
-    return {
-      post: {},
-      errors: [],
-      postId: this.$route.params.id
-    };
-  },
-  created: function() {
-    axios
-      .get('/api/v1/posts/' + this.postId)
-      .then(function(response) {
-        this.post = response.data;
-      }.bind(this))
-      .catch(function(error) {
-        this.errors = ['There seems to be a problem with the server right now.  Try again later'];
-      }.bind(this));
-  },
-  methods: {
-    submit: function() {
-      axios
-        .delete("/api/v1/posts/" + this.postId)
-        .then(function(response) {
-          router.push("/dashboard/posts");
-        }.bind(this))
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    }
-  }
-};
-
 let router = new VueRouter({
   routes: [ 
     { path: "/", component: TheHomePage },
@@ -799,11 +789,11 @@ let router = new VueRouter({
     { path: "/articles/:id", component: TheArticlesShowPage },
     { path: "/login", component: LoginPage },
     { path: "/dashboard", component: DashboardPage },
-    { path: "/dashboard/posts", component: AdminPostIndexPage },
-    { path: "/dashboard/posts/new", component: AdminPostNewPage },
-    { path: "/dashboard/posts/:id", component: AdminPostShowPage },
-    { path: "/dashboard/posts/:id/edit", component: AdminPostEditPage },
-    { path: "/dashboard/posts/:id/delete", component: AdminPostDeletePage },
+    { path: "/dashboard/articles", component: AdminPostIndexPage },
+    { path: "/dashboard/articles/new", component: AdminPostNewPage },
+    { path: "/dashboard/articles/:id", component: AdminPostShowPage },
+    { path: "/dashboard/articles/:id/edit", component: AdminPostEditPage },
+    { path: "/dashboard/articles/:id/delete", component: AdminPostDeletePage },
     { path: "/dashboard/messages", component: AdminMessagesIndexPage },
     { path: "/dashboard/messages/:id", component: AdminMessageShowPage }
 
