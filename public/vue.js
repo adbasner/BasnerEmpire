@@ -32,10 +32,10 @@ Vue.component('client-navbar', {
 Vue.component('admin-navbar', {
   template:`
     <nav id="admin-navbar">
-      <router-link to="/" class="nav-link" target="_blank">BASNER MEDIA</router-link>
-      <router-link to="/dashboard" class="nav-link">DASHBOARD</router-link>
-      <router-link to="/dashboard" class="nav-link">EDIT PROFILE</router-link>
-      <a class="nav-link" @click="logout">LOG OUT</a>
+      <router-link to="/" class="nav-link" target="_blank">basner media</router-link>
+      <router-link to="/dashboard" class="nav-link">dashboard</router-link>
+      <router-link to="/dashboard" class="nav-link">edit profile</router-link>
+      <a class="nav-link" @click="logout">log out</a>
     </nav>
   `,
   created: function() {
@@ -54,12 +54,13 @@ Vue.component('admin-navbar', {
 });
 
 Vue.component('admin-sidebar', {
-  template:
-    `<div id="admin-sidebar">
+  template:`
+    <div id="admin-sidebar">
       <router-link to="/dashboard/posts" class="side-link">view posts</router-link>
       <router-link to="/dashboard/posts/new" class="side-link">new post</router-link>
       <router-link to="/dashboard/messages" class="side-link">messages</router-link>
-    </div>`,
+    </div>
+  `,
   methods: {
   },
 });
@@ -82,13 +83,15 @@ Vue.component('header-img', {
 Vue.component('about-section', {
   template:`
     <div id="about"  class="content-wrapper">
-      <h2 class="center">{{ headerMsg }}</h2>
-      <p>{{ message }}</p>
-      <p>{{ message }}</p>
-      <p>{{ message }}</p>
-      <p>{{ message }}</p>
-      <p>{{ message }}</p>
-      <p>{{ message }}</p>
+      <div class="about-wrapper">
+        <h2 class="center">{{ headerMsg }}</h2>
+        <p>{{ message }}</p>
+        <p>{{ message }}</p>
+        <p>{{ message }}</p>
+        <p>{{ message }}</p>
+        <p>{{ message }}</p>
+        <p>{{ message }}</p>
+      </div>
     </div>
   `,
   data: function() {
@@ -143,16 +146,9 @@ Vue.component('contact-me', {
 });
 
 Vue.component('client-articles-index', {
-  props: ['errors', 'posts'],
+  props: ['posts'],
   template:`
-    <div id="posts" class="content-wrapper">
-      <div class="alert-box">
-        <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        </div>
-      </div>
-         
+    <div id="posts" class="content-wrapper">         
       <div class="post-wrapper" v-for="post in posts"> 
         <a v-bind:href="'/#/articles/' + post.id">
           <div class="inner-post-wrapper">
@@ -166,22 +162,15 @@ Vue.component('client-articles-index', {
 });
 
 Vue.component('client-articles-show', {
-  props: ['errors', 'post'],
+  props: ['post'],
   template:`
     <div id="posts" class="content-wrapper">
-      <div class="alert-box">
-        <div class="alert alert-danger" v-for="error in errors">
-            {{ error }} 
-          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        </div>
-      </div>
-         
       <router-link to="/articles"><div class="btn back-btn">Back to all articles</div></router-link>
 
       <div class="post-wrapper inner-post-wrapper"> 
         <h2> {{ post.title }} </h2> 
-        <h3>{{ post.created_at }}</h3>
-        <div v-html="post.content">{{ post.content }}</div>
+        <p>{{ post.created_at }}</p>
+        <div v-html="post.content" class="post-content">{{ post.content }}</div>
       </div>
     </div>
   `
@@ -222,10 +211,16 @@ Vue.component('post-form', {
 });
       
 Vue.component('alert-box', {
+  props: ['errors'],
   template:`
-
+      <div class="alert-box">
+        <div class="alert alert-danger" v-for="error in errors">
+          {{ error }} <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+      </div>
   `
 }); 
+
 // *****************************
 //
 // Pages 
@@ -270,8 +265,7 @@ let TheContactPage = {
   data: function() {
     return {
       page: 'contact',
-      messages: {},
-      emailrrors: [],
+      messages: {}
     }; 
   },
   methods: {
@@ -299,7 +293,8 @@ let TheArticlesIndexPage = {
   template:`
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
-      <client-articles-index v-bind:posts="posts" v-bind:errors="errors"></client-articles-index>
+      <alert-box v-bind:errors="errors"></alert-box>
+      <client-articles-index v-bind:posts="posts"></client-articles-index>
     </div>
   `,
   data: function() {
@@ -325,7 +320,8 @@ let TheArticlesShowPage = {
   template:`
     <div id="vue-home-main">
       <client-navbar v-bind:page='page'></client-navbar>
-      <client-articles-show v-bind:post="post" v-bind:errors="errors"></client-articles-show>
+      <alert-box v-bind:errors="errors"></alert-box>
+      <client-articles-show v-bind:post="post"></client-articles-show>
     </div>
   `,
   data: function() {
@@ -349,29 +345,27 @@ let TheArticlesShowPage = {
 };
 
 let LoginPage = {
-  template:
-    '<div id="vue-login-main">' +  
-      '<div id="login">' +
-        '<div class="alert-box">' +
-          '<div class="alert alert-danger" v-for="error in errors">' +
-            '{{ error }}' + 
-            '<span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>' +
-          '</div>' +
-        '</div>' +
-        '<h1>LOGIN</h1>' +
-        '<div class="login-box">' +
-          '<label for="email">Email:</label>' +
-          '<input id="email" required type="email" class="form-control" v-model="email">' +
-        '</div>' +
-        '<div class="login-box">' +
-         ' <label for="password">Password:</label>' +
-          '<input id="password" type="password" class="form-control" v-model="password">' +
-        '</div>' +
-        '<div class="login-box">' +
-          '<input id="login-btn" class="btn form-btn" type="submit" @click="submit()" name="Submit">' +
-        '</div>' +
-      '</div>' +
-    '</div>',
+  template:`
+    <div id="vue-login-main">  
+      <div id="login">
+        <alert-box v-bind:errors="errors"></alert-box>
+        <div id="login-form">
+          <h1>LOGIN</h1>
+          <div class="login-box">
+            <label for="email">Email:</label>
+            <input id="email" required type="email" class="form-control" v-model="email">
+          </div>
+          <div class="login-box">
+            <label for="password">Password:</label>
+            <input id="password" type="password" class="form-control" v-model="password">
+          </div>
+          <div class="login-box">
+            <input id="login-btn" class="btn form-btn" type="submit" @click="submit()" name="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
   data: function() {
     return {
       email: "",

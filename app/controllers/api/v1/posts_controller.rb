@@ -23,17 +23,6 @@ class Api::V1::PostsController < ApplicationController
     end
   end
 
-  def last
-    @post = Post.last
-    if @post
-      render 'show.json.jbuilder'
-    else
-      error_title = 'There have been no post made yet'
-      error_message = 'Expect some soon!'
-      render json: { title: error_title, content: error_message }
-    end
-  end
-
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
