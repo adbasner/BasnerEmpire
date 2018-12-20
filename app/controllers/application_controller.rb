@@ -19,10 +19,4 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user
-
-  # def authenticate_user
-  #   unless current_user
-  #     render json: { errors: ['You must be logged in to do that.'] }, status: :unauthorized
-  #   end
-  # end
 end

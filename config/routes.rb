@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   # user routes
-  resources :users, only: [:show, :edit, :update]
+  resources :users, only: [:show, :update]
 
 
   # sessions routes

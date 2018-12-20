@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
         Rails.application.credentials.fetch(:secret_key_base),
         'HS256'
       )
-      render json: {jwt: jwt, email: user.email, status: :created}
+      render json: {jwt: jwt, uid: user.id, status: :created}
     else
       render json: {}
     end

@@ -33,6 +33,10 @@ html {
   box-sizing: inherit;
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
 
 /***********************************
 
@@ -470,7 +474,13 @@ Posts
 
 .back-btn:focus {
   box-shadow: 0 0 15px cornflowerblue;
+  border: solid 1px cornflowerblue;
   outline: none;
+}
+
+.admin-wrapper a:focus {
+  outline: none;
+
 }
 
 .post-wrapper h2 {
@@ -594,6 +604,7 @@ Dashboard Posts
 
 .edit-btn:focus {
   box-shadow: 0 0 15px #64edbc;
+  border: solid 1px #64edbc;
   outline: none;
 }
 
@@ -609,11 +620,45 @@ Dashboard Posts
 
 .delete-btn:focus {
   box-shadow: 0 0 15px #ed6495;
+  border: solid 1px #ed6495;
   outline: none;
 }
 
 /***********************************
 
-Dashboard Edit Posts
+Dashboard Edit/Delete/New Posts
 
 ************************************/
+
+.admin-form-wrapper {
+  margin: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .admin-form-wrapper {
+    margin: 20px 0px;
+  }
+}
+
+.admin-article-form {
+  width: 100%;
+  max-width: 100%;
+}
+
+#delete-page h2 {
+  padding-bottom: 20px;
+}
+
+#message-show h2, #message-show p {
+  margin-bottom: 10px;
+}
+.message-wrapper {
+  margin-bottom: 20px;
+}
+/*.admin-form-wrapper a {
+  text-decoration: none;
+}
+
+#delete- a {
+  text-decoration: none;
+}*/
