@@ -35,7 +35,8 @@ Vue.component('admin-navbar', {
       <router-link to="/" class="nav-link" target="_blank">basner media</router-link>
       <router-link to="/dashboard" class="nav-link">dashboard</router-link>
       <router-link to="/dashboard" class="nav-link">edit profile</router-link>
-      <a class="nav-link" @click="logout">log out</a>
+      <a class="nav-link nav-no-right-border" @click="logout">log out</a>
+      <a class="nav-link nav-no-right-border" id="toggle-icon" @click="toggleNav">&#9776;</a>
     </nav>
   `,
   created: function() {
@@ -50,6 +51,12 @@ Vue.component('admin-navbar', {
       axios.delete('/logout');
       router.push('/login');
     },
+    toggleNav: function() {
+      const navItems = document.querySelectorAll(".nav-link");
+      navItems.forEach(navItem => 
+        navItem.classList.toggle('responsive')
+      );
+    }
   }
 });
 
@@ -424,14 +431,15 @@ let LoginPage = {
 };
 
 let DashboardPage = {
-  template: 
-    '<div id="vue-admin-main">' +
-      '<admin-navbar></admin-navbar>' +
-      '<admin-sidebar></admin-sidebar>' + 
-      '<div class="admin-wrapper">' + 
-        '<div>Welcome Andrew, you are going to have an awesome day</div>' +
-      '</div>' +
-    '</div>',
+  template:`
+    <div id="vue-admin-main">
+      <admin-navbar></admin-navbar>
+      <admin-sidebar></admin-sidebar>
+      <div class="admin-wrapper">
+        <h2 class="center">Welcome Andrew, you are going to have an awesome day</h2>
+      </div>
+    </div>
+  `
 };
 
 let AdminPostIndexPage = {

@@ -147,7 +147,7 @@ nav {
   }
 
   .nav-link {
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
     border-bottom: none;
     border-right: none;
     width: 100%;
@@ -185,24 +185,16 @@ nav {
 
 /***********************************
 
-Admin Nav Bar
+Admin Nav Bar and main page
 
-***********************************
+***********************************/
 
-/*nav#home-navbar,
-nav#admin-navbar {
+#admin-sidebar {
   position: fixed;
-  top: 0;
-  z-index: 99;
-}*/
-
-div#admin-sidebar {
-  position: fixed;
-  top: 59px;
-  z-index: 99;
-  flex-direction: column;
+  top: 56px;
+  left: 0;
   width: 175px;
-  height: 100vh;
+  height: calc(100vh - 56px);
   background-color: #242424;
 }
 
@@ -211,11 +203,9 @@ div#admin-sidebar {
   text-align: center;
   display: block;
   border: none;
-  background-color: #242424;
   text-decoration: none;
   color: #efefef;
   padding: 20px 0 20px 0;
-  font-size: 1.2rem;
   font-weight: bold;
   box-sizing: border-box;
   width: 100%;
@@ -223,7 +213,6 @@ div#admin-sidebar {
   border-right: solid 10px #242424;
   border-left: solid 10px #242424;
   cursor: pointer;
-  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -231,38 +220,34 @@ div#admin-sidebar {
   border-right: solid 10px #edbc64;
 }
 
-/*@media only screen and (max-width: 767px) {
-  nav {
-    flex-direction: column;
-  }
+.admin-wrapper {
+  margin-left: 175px;
+  background-color: #efefef;
+  display: inline-block;
+  padding: 20px;
+}
 
-  .nav-link {
-    display: block;
-    padding: 10px 10px 0 10px;
-  }
-
-  nav#home-navbar,
-  nav#admin-navbar,
-  div#admin-sidebar {
+@media only screen and (max-width: 767px) {
+  #admin-sidebar {
     position: static;
-  }
-  div#admin-sidebar {
-    height: auto;
     width: 100%;
+    height: auto;
   }
 
   .side-link {
-    
-    padding-bottom: 0px;
-    border-bottom: solid 10px #242424; 
+    padding: 10px;
+    border: none;
   }
 
   .side-link:hover {
-    border-left: none;
-    border-right: none;
-    border-bottom: solid 10px #edbc64;
+    background-color: #edbc64;
   }
-}*/
+
+  .admin-wrapper {
+    margin: 20px;
+    padding: 0;
+  }
+}
 
 /***********************************
 
@@ -422,7 +407,6 @@ form {
 }
 
 label {
-  /*display: block;*/
   font-size: 1.2rem;
 }
 
@@ -551,7 +535,7 @@ Alerts
   transition: 0.3s;
 }
 
- /***********************************
+/***********************************
 
 Log In Page
 
@@ -584,22 +568,8 @@ Log In Page
   width: 100%;
 }
 
- /***********************************
+/***********************************
 
- Admin Page
+Dashboard Posts
 
 ************************************/
-
-.admin-wrapper {
-  margin-top: 59px;
-  margin-left: 175px;
-  background-color: #efefef;
-  padding: 20px;
-}
-
-@media only screen and (max-width: 767px) {
-  .admin-wrapper {
-    margin-top: 0;
-    margin-left: 0;
-  }
-}
