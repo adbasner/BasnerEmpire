@@ -34,7 +34,7 @@ Vue.component('admin-navbar', {
     <nav id="admin-navbar">
       <router-link to="/" class="nav-link" target="_blank">basner media</router-link>
       <router-link to="/dashboard" class="nav-link">dashboard</router-link>
-      <router-link to="/dashboard/users" class="nav-link">edit profile</router-link>
+      <router-link to="/dashboard/users" class="nav-link">view profile</router-link>
       <a class="nav-link nav-no-right-border" @click="logout">log out</a>
       <a class="nav-link nav-no-right-border" id="toggle-icon" @click="toggleNav">&#9776;</a>
     </nav>
@@ -864,7 +864,7 @@ let UserEditPage = {
         </div>
       </div>
     </div>
-  `,
+  `, 
   data: function() {
     return {
       user: {},

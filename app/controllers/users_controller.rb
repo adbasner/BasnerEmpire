@@ -7,6 +7,12 @@ class UsersController < ApplicationController
   end
 
   def update
+    user_params = {
+      name: params[:name],
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation]
+    }
     if @user.update(user_params)
       render 'show.json.jbuilder'
     else
@@ -18,10 +24,6 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find_by(id: current_user.id)
-  end
-
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def require_same_user
