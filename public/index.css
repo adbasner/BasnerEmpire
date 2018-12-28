@@ -1,3 +1,4 @@
+
 /*****************************
 
  css reset from 
@@ -129,8 +130,7 @@ nav {
 }
 
 .nav-active {
-  text-decoration: underline;
-  text-decoration-color: cornflowerblue;
+  color: cornflowerblue;
 }
 
 .nav-link:hover {
