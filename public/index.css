@@ -46,7 +46,7 @@ Global Styles
 ************************************/
 
 body {
-  background-color: #efefef;
+  background-color: #fdfdfd;
   color: #121212;
   font-family: Helventica, Arial, "sans-serif";
   padding: 0;
@@ -130,7 +130,7 @@ nav {
 }
 
 .nav-active {
-  color: cornflowerblue;
+  color: #edbc64;
 }
 
 .nav-link:hover {
@@ -160,11 +160,6 @@ nav {
 
   .nav-link:first-of-type {
     display: inline-block;
-  }
-
-  .nav-active {    
-    text-decoration: underline;
-    text-decoration-color: cornflowerblue;
   }
 
   .nav-link:hover {
